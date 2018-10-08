@@ -11,7 +11,7 @@ const AuthStack = createStackNavigator({
 });
 
 AuthStack.navigationOptions = {
-  tabBarLabel: 'Next',
+  tabBarLabel: '   ',
   // tabBarIcon: ({ focused }) => (
   //   <TabBarIcon
   //     focused={focused}
