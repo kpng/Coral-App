@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Button, AsyncStorage, TouchableOpacity, Text } from 'react-native';
+import { View, Button, AsyncStorage, TouchableOpacity, Text, StyleSheet, ScrollView } from 'react-native';
 
 export default class ProfileScreen extends React.Component {
   static navigationOptions = {
+    // header: null,
     title: 'Profile',
   };
 
@@ -11,7 +12,7 @@ export default class ProfileScreen extends React.Component {
       <TouchableOpacity onPress={()=> this._signOutAsync()}>
       <View
         style={{
-          width: '100%',
+          width: '80%',
           alignSelf: 'center',
           borderRadius: 4,
           padding: 24,
@@ -30,8 +31,12 @@ export default class ProfileScreen extends React.Component {
     /* Go ahead and delete ExpoConfigView and replace it with your
      * content, we just wanted to give you a quick view of your config */
     return(
-      <Button title="Sign out" onPress={this._signOutAsync} />
-      // {this.SignOut_Button}
+      <ScrollView style={styles.container}>
+
+      {/* <Button title="Sign out" onPress={this._signOutAsync} /> */}
+      {this.SignOut_Button}
+      </ScrollView>
+
     )
   };    
 
@@ -40,3 +45,11 @@ export default class ProfileScreen extends React.Component {
       this.props.navigation.navigate('AuthLoading');
     };
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 15,
+    backgroundColor: '#fff',
+  },
+});

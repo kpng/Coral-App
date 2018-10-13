@@ -25,14 +25,14 @@ export default class HomeScreen extends React.Component {
             <Image
               source={
                 __DEV__
-                  ? require('../assets/images/robot-dev.png')
-                  : require('../assets/images/robot-prod.png')
+                  ? require('../assets/images/logo-dev.png')
+                  : require('../assets/images/logo-prod.png')
               }
               style={styles.welcomeImage}
             />
           </View>
 
-          <View style={styles.getStartedContainer}>
+          {/* <View style={styles.getStartedContainer}>
             {this._maybeRenderDevelopmentModeWarning()}
 
             <Text style={styles.getStartedText}>Get started by opening</Text>
@@ -44,22 +44,22 @@ export default class HomeScreen extends React.Component {
             <Text style={styles.getStartedText}>
               Change this text and your app will automatically reload.
             </Text>
-          </View>
+          </View> */}
 
           <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
+            <TouchableOpacity onPress={this._handleVisitUsPress} style={styles.helpLink}>
+              <Text style={styles.helpLinkText}>Visit our website!</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
 
-        <View style={styles.tabBarInfoContainer}>
+        {/* <View style={styles.tabBarInfoContainer}>
           <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
 
           <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
             <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
           </View>
-        </View>
+        </View> */}
       </View>
     );
   }
@@ -85,6 +85,10 @@ export default class HomeScreen extends React.Component {
         </Text>
       );
     }
+  }
+
+  _handleVisitUsPress = () => {
+    WebBrowser.openBrowserAsync('http://coral.community');
   }
 
   _handleLearnMorePress = () => {

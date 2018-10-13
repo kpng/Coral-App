@@ -11,13 +11,27 @@ import {
     TextInput,
     Dimensions } from 'react-native';
 
+
+import Amplify, { Auth } from 'aws-amplify'
+import AWSConfig from '../aws-exports'
+Amplify.configure(AWSConfig)
+
+
 const BackGroundImage = '../assets/images/splash.png';
 const LogoImage = '../assets/images/greenWhite.png';
 
 export default class AuthScreen extends React.Component {
   static navigationOptions = {
+    header: null,
     // title: 'Please sign in',
   };
+
+  state = {
+    username: '',
+    password: '',
+    phone_number: '',
+    email: ''
+  }
 
   login = async() => {}
 
@@ -32,12 +46,55 @@ export default class AuthScreen extends React.Component {
           padding: 24,
           backgroundColor: '#3B5998',
         }}>
-        < Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18, alignSelf: 'center' }}>
+        < Text style={{ color: 'white', fontFamily: 'open-sans-semibold', fontWeight: 'bold', fontSize: 18, alignSelf: 'center' }}>
         Sign in with Facebook
         </Text>
       </View>              
       </TouchableOpacity>      
     )
+  }
+
+  get SignUp_Button() {
+    return (
+      <TouchableOpacity onPress={()=> this.props.navigation.navigate('Main')}>
+      <View
+        style={{
+          width: '100%',
+          alignSelf: 'center',
+          borderRadius: 4,
+          padding: 24,
+          // backgroundColor: '#3B5998',
+        }}>
+        < Text style={{ color: 'blue', fontFamily: 'open-sans-semibold', fontWeight: 'bold', fontSize: 18, alignSelf: 'center' }}>
+        Sign Up
+        </Text>
+      </View>              
+      </TouchableOpacity>      
+    )
+  }
+
+
+  onChangeText(key, value){
+    this.setState( {[key]: value} )
+  }
+
+  signUp(){
+    Auth.signUp({
+      username: this.state.phone_number,
+      password: 'Qwerty-123',
+      attributes: {
+        email: 'kongphui@gmail.com',
+        phone_number: this.state.phone_number
+      }
+    })
+    .then( () => console.log('successful sign up!') )
+    .catch( err => console.log('error signing up: ', err))
+  }
+
+  confirmSignUp(){
+    Auth.confirmSignUp(this.state.username, this.state.confirmationCode)
+    .then( () => console.log('successful confirm sign up!'))
+    .catch( err => console.log('error confirming sign up: ', err))
   }
 
   render() {
@@ -48,21 +105,28 @@ export default class AuthScreen extends React.Component {
             <Image source={require(LogoImage)} style={[styles.logo]} />
 
             {/* <Button title="Sign in!" onPress={this._signInAsync} /> */}
+            <View style={[styles.inputField]}>
+
             <TextInput
               placeholder="Enter mobile number to sign in"
               placeholderTextColor='grey'
               keyboardType='phone-pad'
               enablesReturnKeyAutomatically={true}
               maxLength={11}
-              alignSelf='center'
               returnKeyType='next'
+              textAlign='center'
               style={styles.inputStyle}
+              onChangeText={ value => this.onChangeText('phone_number', value) }
             />
+            </View>
+
             <Text style={styles.subText}>A 6-digit code will be sent to this number</Text>
 
             <Text style={styles.subText}>OR</Text>
 
             {this.SignInFB_Button}
+
+            {this.SignUp_Button}
  
           </ScrollView>
       </View>    
@@ -105,15 +169,16 @@ const styles = StyleSheet.create({
     alignItems: 'stretch'
   },  
   inputStyle: {
-    height: 42,
+    height: 48,
     fontSize: 18,
     backgroundColor: 'rgba(255,255,255,0)',
-    textAlign: 'center',
+    borderBottomWidth: 0,
+    borderBottomColor: '#2196F3',
     color: 'black'
   },
   inputField: {
-    alignItems: 'stretch',
-    marginBottom: 6,
+    // alignItems: 'center',
+    marginBottom: 1,
   },
   subText: {
     fontSize: 18,

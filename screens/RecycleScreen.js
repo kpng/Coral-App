@@ -4,6 +4,7 @@ import { ExpoLinksView } from '@expo/samples';
 
 export default class RecycleScreen extends React.Component {
   static navigationOptions = {
+    header: null,
     title: 'Recycle',
   };
 
