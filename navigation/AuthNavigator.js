@@ -12,9 +12,10 @@ const SignUpStack = createStackNavigator({
   SignUp: SignUpScreen,
 });
 
+
 SignUpStack.navigationOptions = {
   tabBarVisible: false,
-  // tabBarLabel: '   ',
+  // tabBarLabel: 'Sign Up',
   // tabBarIcon: ({ focused }) => (
   //   <TabBarIcon
   //     focused={focused}
@@ -31,9 +32,10 @@ const AuthStack = createStackNavigator({
   Auth: AuthScreen,
 });
 
+
 AuthStack.navigationOptions = {
   tabBarVisible: false,
-  // tabBarLabel: '   ',
+  // tabBarLabel: 'Sign In',
   // tabBarIcon: ({ focused }) => (
   //   <TabBarIcon
   //     focused={focused}
@@ -52,6 +54,5 @@ export default createBottomTabNavigator({
   AuthStack,
   SignUpStack,
 },
-{
-}
+
 );

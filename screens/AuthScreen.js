@@ -56,7 +56,7 @@ export default class AuthScreen extends React.Component {
 
   get SignUp_Button() {
     return (
-      <TouchableOpacity onPress={()=> this.props.navigation.navigate('Main')}>
+      <TouchableOpacity onPress={()=> this.props.navigation.navigate('SignUp')}>
       <View
         style={{
           width: '100%',
