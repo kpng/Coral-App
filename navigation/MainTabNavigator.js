@@ -5,6 +5,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import RecycleScreen from '../screens/RecycleScreen';
+import NotifScreen from '../screens/NotifScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import TabBarIconFontAwesome from '../components/TabBarIconFontAwesome';
 
@@ -41,6 +42,20 @@ RecycleStack.navigationOptions = {
   ),
 };
 
+const NotifStack = createStackNavigator({
+  Notif: NotifScreen,
+});
+
+NotifStack.navigationOptions = {
+  tabBarLabel: 'Notifications',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? `ios-notifications${focused ? '' : ''}` : 'md-notifications'}
+    />
+  ),
+};
+
 const ProfileStack = createStackNavigator({
   Profile: ProfileScreen,
 });
@@ -58,5 +73,6 @@ ProfileStack.navigationOptions = {
 export default createBottomTabNavigator({
   HomeStack,
   RecycleStack,
+  NotifStack,
   ProfileStack,
 });

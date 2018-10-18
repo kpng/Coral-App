@@ -10,7 +10,7 @@ import {
     Text,
     TextInput,
     Dimensions } from 'react-native';
-
+import Expo from 'expo';
 
 import Amplify, { Auth } from 'aws-amplify'
 import AWSConfig from '../aws-exports'
@@ -19,6 +19,7 @@ Amplify.configure(AWSConfig)
 
 const BackGroundImage = '../assets/images/splash.png';
 const LogoImage = '../assets/images/greenWhite.png';
+const AppID = '447519875768842';
 
 export default class AuthScreen extends React.Component {
   static navigationOptions = {
@@ -33,7 +34,9 @@ export default class AuthScreen extends React.Component {
     email: ''
   }
 
-  login = async() => {}
+  login = async() => {
+
+  }
 
   get SignInFB_Button() {
     return (
@@ -134,8 +137,26 @@ export default class AuthScreen extends React.Component {
   }
 
   _signInAsync = async () => {
-    await AsyncStorage.setItem('userToken', 'abc');
-    this.props.navigation.navigate('Main');
+    // await AsyncStorage.setItem('userToken', 'abc');
+
+    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(AppID, 
+      { permissions: ['public_profile', 'email'] })
+
+    if (type === 'success'){
+      // Get the user's name using Facebook's Graph API
+      const response = await fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id, name, email, about, picture`);
+
+      const json = await response.json();
+      const alertmsg = json.name;
+      alert(alertmsg);
+
+      // Alert.alert('Logged in!',`Hi ${(await response.json()).name}!`,);
+      alert(type);
+      this.props.navigation.navigate('Main');
+    }
+    else{
+      alert(type);
+    }
   };  
 }
 
