@@ -144,18 +144,18 @@ export default class AuthScreen extends React.Component {
 
     if (type === 'success'){
       // Get the user's name using Facebook's Graph API
-      const response = await fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id, name, email, about, picture`);
+      const response = await fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id, name, email, about, picture.type(large)`);
 
-      const json = await response.json();
-      const alertmsg = json.name;
-      alert(alertmsg);
+      const userInfo = await response.json();
+      const alertmsg = userInfo.name.concat(userInfo.picture," logged in");
+      // alert(alertmsg);
 
       // Alert.alert('Logged in!',`Hi ${(await response.json()).name}!`,);
-      alert(type);
+      // alert(type);
       this.props.navigation.navigate('Main');
     }
     else{
-      alert(type);
+      // alert(type);
     }
   };  
 }

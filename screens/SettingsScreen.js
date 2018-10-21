@@ -4,31 +4,77 @@ import { Platform } from 'react-native';
 import { View, Button, AsyncStorage, TouchableOpacity, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { Icon } from 'expo';
 
-import SettingsScreen from './SettingsScreen';
 
-
-export default class ProfileScreen extends React.Component {
-  static navigationOptions = ({navigation}) => ({
+export default class SettingsScreen extends React.Component {
+  static navigationOptions = {
     // header: null,
-    title: 'Profile',
-    headerRight:<TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-    <Icon.MaterialIcons 
-      name={'settings'}
-      size={38} 
-      style={{ marginRight: 8 }}
-    />
-    </TouchableOpacity>
-  });
+    title: 'Settings',
+    };
   
-  
+  get GoBack_Button(){
+    return (
+      <TouchableOpacity onPress={()=> this.props.navigation.goBack()}>
+
+      {/* <TouchableOpacity onPress={()=> this.props.navigation.popToTop()}> */}
+      <View
+        style={{
+          width: '80%',
+          alignSelf: 'center',
+          borderRadius: 4,
+          padding: 24,
+          backgroundColor: '#FB599F',
+        }}>
+        < Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18, alignSelf: 'center' }}>
+        Go Back To Profile
+        </Text>
+      </View>              
+      </TouchableOpacity>      
+    )
+  }
+
+  get SignOut_Button() {
+    return (
+      <TouchableOpacity onPress={()=> this._signOutAsync()}>
+      <View
+        style={{
+          width: '80%',
+          alignSelf: 'center',
+          borderRadius: 4,
+          padding: 24,
+          backgroundColor: '#3B5998',
+        }}>
+        < Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18, alignSelf: 'center' }}>
+        Sign Out Now
+        </Text>
+      </View>              
+      </TouchableOpacity>      
+    )
+  }
+
+
   render() {
     return(
       <ScrollView style={styles.container}>
 
+      {/* <Button title="Sign out" onPress={this._signOutAsync} /> */}
+      {this.GoBack_Button}
+      {this.SignOut_Button}
       </ScrollView>
 
     )
   };    
+
+
+
+    _signOutAsync = async () => {
+
+      // var lParams = access_token=${token}; 
+      var User_id = '10217938171825644';
+      // await fetch( ‘https://graph.facebook.com/User_id/permissions’,{ method : ‘DELETE’, body: lParams }
+
+      await AsyncStorage.clear();
+      this.props.navigation.navigate('AuthLoading');
+    };
 }
 
 const styles = StyleSheet.create({
