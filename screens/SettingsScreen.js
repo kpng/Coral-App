@@ -1,8 +1,6 @@
 import React from 'react';
-import { Platform } from 'react-native';
 
 import { View, Button, AsyncStorage, TouchableOpacity, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
-import { Icon } from 'expo';
 
 
 export default class SettingsScreen extends React.Component {
@@ -11,26 +9,6 @@ export default class SettingsScreen extends React.Component {
     title: 'Settings',
     };
   
-  get GoBack_Button(){
-    return (
-      <TouchableOpacity onPress={()=> this.props.navigation.goBack()}>
-
-      {/* <TouchableOpacity onPress={()=> this.props.navigation.popToTop()}> */}
-      <View
-        style={{
-          width: '80%',
-          alignSelf: 'center',
-          borderRadius: 4,
-          padding: 24,
-          backgroundColor: '#FB599F',
-        }}>
-        < Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18, alignSelf: 'center' }}>
-        Go Back To Profile
-        </Text>
-      </View>              
-      </TouchableOpacity>      
-    )
-  }
 
   get SignOut_Button() {
     return (
@@ -56,15 +34,12 @@ export default class SettingsScreen extends React.Component {
     return(
       <ScrollView style={styles.container}>
 
-      {/* <Button title="Sign out" onPress={this._signOutAsync} /> */}
-      {this.GoBack_Button}
+
       {this.SignOut_Button}
       </ScrollView>
 
     )
   };    
-
-
 
     _signOutAsync = async () => {
 

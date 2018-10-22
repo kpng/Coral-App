@@ -3,7 +3,6 @@ import { createSwitchNavigator } from 'react-navigation';
 
 import MainTabNavigator from './MainTabNavigator';
 import AuthNavigator from './AuthNavigator';
-import SettingsNavigator from './SettingsNavigator';
 
 
 export default createSwitchNavigator(
@@ -12,7 +11,6 @@ export default createSwitchNavigator(
   // Read more at https://reactnavigation.org/docs/en/auth-flow.html
   AuthLoading: AuthNavigator,
   Main: MainTabNavigator,
-  Settings: SettingsNavigator,
   },
   {
     initialRouteName: 'AuthLoading',

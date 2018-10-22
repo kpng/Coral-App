@@ -8,28 +8,29 @@ import SignUpScreen from '../screens/SignUpScreen';
 import TabBarIconFontAwesome from '../components/TabBarIconFontAwesome';
 
 
-const SignUpStack = createStackNavigator({
-  SignUp: SignUpScreen,
-});
+// const SignUpStack = createStackNavigator({
+//   SignUp: SignUpScreen,
+// });
 
 
-SignUpStack.navigationOptions = {
-  tabBarVisible: false,
-  // tabBarLabel: 'Sign Up',
-  // tabBarIcon: ({ focused }) => (
-  //   <TabBarIcon
-  //     focused={focused}
-  //     name={
-  //       Platform.OS === 'ios'
-  //         ? `ios-search${focused ? '' : '-outline'}`
-  //         : 'md-search'
-  //     }
-  //   />
-  // ),
-}
+// SignUpStack.navigationOptions = {
+//   tabBarVisible: false,
+//   // tabBarLabel: 'Sign Up',
+//   // tabBarIcon: ({ focused }) => (
+//   //   <TabBarIcon
+//   //     focused={focused}
+//   //     name={
+//   //       Platform.OS === 'ios'
+//   //         ? `ios-search${focused ? '' : '-outline'}`
+//   //         : 'md-search'
+//   //     }
+//   //   />
+//   // ),
+// }
 
 const AuthStack = createStackNavigator({
   Auth: AuthScreen,
+  SignUp: SignUpScreen,
 });
 
 
@@ -52,7 +53,7 @@ AuthStack.navigationOptions = {
 
 export default createBottomTabNavigator({
   AuthStack,
-  SignUpStack,
+  // SignUpStack,
 },
 
 );

@@ -27,12 +27,24 @@ export default class AuthScreen extends React.Component {
     // title: 'Please sign in',
   };
 
-  state = {
-    username: '',
-    password: '',
-    phone_number: '',
-    email: ''
+  // state = {
+  //   username: '',
+  //   password: '',
+  //   phone_number: '',
+  //   email: ''
+  // }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      fullname: 'full name',
+      pswd: 'password',
+      email: 'email',
+      phone_number: '',
+      token:'',
+    };
   }
+
 
   login = async() => {
 
@@ -147,8 +159,13 @@ export default class AuthScreen extends React.Component {
       const response = await fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id, name, email, about, picture.type(large)`);
 
       const userInfo = await response.json();
-      const alertmsg = userInfo.name.concat(userInfo.picture," logged in");
-      // alert(alertmsg);
+      const alertmsg = (name) => { 
+        return 'Hello ' + name + '!'; };
+      // alert();
+      alert(alertmsg(userInfo.name));
+      // alert(alertmsg(userInfo.id));
+      // alert(alertmsg(token));
+      
 
       // Alert.alert('Logged in!',`Hi ${(await response.json()).name}!`,);
       // alert(type);
@@ -193,13 +210,13 @@ const styles = StyleSheet.create({
     height: 48,
     fontSize: 18,
     backgroundColor: 'rgba(255,255,255,0)',
-    borderBottomWidth: 0,
+    borderBottomWidth: 1,
     borderBottomColor: '#2196F3',
     color: 'black'
   },
   inputField: {
     // alignItems: 'center',
-    marginBottom: 1,
+    marginBottom: 18,
   },
   subText: {
     fontSize: 18,

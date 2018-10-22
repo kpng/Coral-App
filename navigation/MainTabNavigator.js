@@ -7,6 +7,7 @@ import HomeScreen from '../screens/HomeScreen';
 import RecycleScreen from '../screens/RecycleScreen';
 import NotifScreen from '../screens/NotifScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 import TabBarIconFontAwesome from '../components/TabBarIconFontAwesome';
 
 
@@ -58,6 +59,7 @@ NotifStack.navigationOptions = {
 
 const ProfileStack = createStackNavigator({
   Profile: ProfileScreen,
+  Settings: SettingsScreen,
 });
 
 ProfileStack.navigationOptions = {
