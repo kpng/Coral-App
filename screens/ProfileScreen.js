@@ -3,6 +3,7 @@ import { Platform } from 'react-native';
 
 import { View, Button, AsyncStorage, TouchableOpacity, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { Icon } from 'expo';
+import { FormInput } from 'react-native-elements';
 
 import SettingsScreen from './SettingsScreen';
 
@@ -11,6 +12,8 @@ export default class ProfileScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
     // header: null,
     title: 'Profile',
+    headerTransparent: true,
+
     headerRight:<TouchableOpacity onPress={() => navigation.navigate("Settings")}>
     <Icon.MaterialIcons 
       name={'settings'}

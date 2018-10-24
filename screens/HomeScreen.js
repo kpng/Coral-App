@@ -8,9 +8,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { SearchBar } from 'react-native-elements'
 import { WebBrowser } from 'expo';
-
 import { MonoText } from '../components/StyledText';
+import { Icon } from 'expo';
+
+const logoDev = '../assets/images/logo-blue-dev.png';
+const logoProd = '../assets/images/logo-green-prod.png';
+
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -21,12 +26,27 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+
+        <SearchBar
+          round
+          lightTheme
+          // searchIcon={{ size: 88 }}
+          // noIcon
+          platform
+          inputStyle={styles.inputStyle}
+
+
+          // onChangeText={someMethod}
+          // onClear={someMethod}
+          placeholder='newspaper, e-waste, ...' 
+        />
+
           <View style={styles.welcomeContainer}>
             <Image
               source={
                 __DEV__
-                  ? require('../assets/images/logo-dev.png')
-                  : require('../assets/images/logo-prod.png')
+                  ? require(logoDev)
+                  : require(logoProd)
               }
               style={styles.welcomeImage}
             />
@@ -105,7 +125,7 @@ export default class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#eff',
+    backgroundColor: 'white',
   },
   developmentModeText: {
     marginBottom: 20,
@@ -189,4 +209,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2e78b7',
   },
+  inputStyle: {
+    height: 48,
+    fontSize: 18,
+    backgroundColor: 'rgba(205,205,205,0.5)',
+    // borderBottomWidth: 1,
+    // borderBottomColor: '#ffffFf',
+    color: 'black'
+  },  
 });

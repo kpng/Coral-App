@@ -3,27 +3,31 @@ import { View, Image,  Button, AsyncStorage, TouchableOpacity, Text, TextInput, 
   Dimensions } from 'react-native';
 import { WebBrowser } from 'expo';
 
+import { Overlay } from 'react-native-elements';
+
 const BackGroundImage = '../assets/images/signup_bg.jpg';
 
 
 export default class SignUpScreen extends React.Component {
   static navigationOptions = {
     // header: null,
-    title: 'Sign Up',
+    headerTransparent: true,
+    title: null,
+    headerTintColor: 'white',
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      fullname: 'full name',
-      email: 'email',
-      phone_number: '',
-      postal: '',
-      floor: '',
-      unit_number: '',
-      token:'',
-    };
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     fullname: 'full name',
+  //     email: 'email',
+  //     phone_number: '',
+  //     postal: '',
+  //     floor: '',
+  //     unit_number: '',
+  //     token:'',
+  //   };
+  // }
 
   onChangeText(key, value){
     this.setState( {[key]: value} )
@@ -62,13 +66,17 @@ export default class SignUpScreen extends React.Component {
              placeholderTextColor='grey'
             //  keyboardType='phone-pad'
             //  enablesReturnKeyAutomatically={true}
-            //  maxLength={11}
+             maxLength={26}
             //  returnKeyType='next'
              textAlign='center'
              style={styles.inputStyle}
+             borderRadius={88}
+             underlineColorAndroid='transparent'
              onChangeText={ value => this.onChangeText('fullname', value) }
              />
             </View>
+
+
 
             <View style={[styles.inputField]}>
               <TextInput
@@ -76,10 +84,12 @@ export default class SignUpScreen extends React.Component {
              placeholderTextColor='grey'
             //  keyboardType='phone-pad'
             //  enablesReturnKeyAutomatically={true}
-            //  maxLength={11}
-            //  returnKeyType='next'
+             maxLength={26}
+             returnKeyType='next'
              textAlign='center'
              style={styles.inputStyle}
+             borderRadius={88}
+             underlineColorAndroid='transparent'
              onChangeText={ value => this.onChangeText('email', value) }
              />
             </View>
@@ -91,9 +101,11 @@ export default class SignUpScreen extends React.Component {
              keyboardType='phone-pad'
             //  enablesReturnKeyAutomatically={true}
              maxLength={11}
-            //  returnKeyType='next'
+             returnKeyType='next'
              textAlign='center'
              style={styles.inputStyle}
+             borderRadius={88}
+             underlineColorAndroid='transparent'
              onChangeText={ value => this.onChangeText('phone_number', value) }
              />
             </View>
@@ -105,24 +117,28 @@ export default class SignUpScreen extends React.Component {
              keyboardType='phone-pad'
             //  enablesReturnKeyAutomatically={true}
              maxLength={6}
-            //  returnKeyType='next'
+             returnKeyType='next'
              textAlign='center'
              style={styles.inputStyle}
+             borderRadius={88}
+             underlineColorAndroid='transparent'
              onChangeText={ value => this.onChangeText('postal', value) }
              />
             </View>
 
             <View style={[styles.inputField]}>
               <TextInput
-             placeholder="Floor"
+             placeholder="Floor number"
              placeholderTextColor='grey'
              keyboardType='phone-pad'
             //  enablesReturnKeyAutomatically={true}
              maxLength={2}
-            //  returnKeyType='next'
+             returnKeyType='next'
              textAlign='center'
              style={styles.inputStyle}
-             onChangeText={ value => this.onChangeText('floor', value) }
+             borderRadius={88}
+             underlineColorAndroid='transparent'
+             onChangeText={ value => this.onChangeText('floor_number', value) }
              />
             </View>
 
@@ -131,11 +147,13 @@ export default class SignUpScreen extends React.Component {
              placeholder="Unit number"
              placeholderTextColor='grey'
              keyboardType='phone-pad'
-            //  enablesReturnKeyAutomatically={true}
-             maxLength={4}
+             enablesReturnKeyAutomatically={true}
+             maxLength={6}
             //  returnKeyType='next'
              textAlign='center'
              style={styles.inputStyle}
+             borderRadius={88}
+             underlineColorAndroid='transparent'
              onChangeText={ value => this.onChangeText('unit_number', value) }
              />
             </View>
@@ -145,23 +163,20 @@ export default class SignUpScreen extends React.Component {
           </View>
 
             <View style={[styles.rowFlex]}>
-              <Text style={[styles.forgotPswdLink]}>By signing up, you agree to our
+              <Text style={[styles.disclaimerText]}>By signing up, you agree to our
               </Text>
 
               <TouchableOpacity onPress={this._handleTermsOfUsePress}>
               <Text style={styles.blueText}>Terms Of Use</Text>
               </TouchableOpacity>
-
-                {/* <Text style={[styles.blueText]}> terms of use </Text> */}
-              and 
-
-              {/* <Text style={[styles.blueText]}> privacy policy.</Text> */}
+              
+              <Text style={[styles.disclaimerText]}>and</Text>
 
               <TouchableOpacity onPress={this._handlePrivacyPolicyPress}>
-              <Text style={styles.blueText}>Privacy Policy.</Text>
+              <Text style={styles.blueText}>Privacy Policy</Text>
               </TouchableOpacity>
 
-            </View>          
+            </View>           
         </ScrollView>
 
       </View>
@@ -195,7 +210,7 @@ const styles = StyleSheet.create({
   overlayContainer: {
     backgroundColor: 'rgba(205, 205, 205, 0.8);',
     position: 'absolute',
-    top: 40,
+    top: 48,
     right: 0,
     left: 0,
     marginHorizontal: Dimensions.get('window').width > 320 ? 16 : 10,
@@ -207,8 +222,8 @@ const styles = StyleSheet.create({
   inputStyle: {
     height: 48,
     fontSize: 18,
-    backgroundColor: 'rgba(255,255,255,0)',
-    borderBottomWidth: 1,
+    backgroundColor: 'rgba(255,255,255,0.5)',
+    borderBottomWidth: 0,
     borderBottomColor: '#2196F3',
     color: 'black'
   },
@@ -216,7 +231,7 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     marginBottom: 10,
   },  
-  forgotPswdLink: {
+  disclaimerText: {
     color: 'black',
     fontSize: 16,
     textAlign: 'center',

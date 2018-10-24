@@ -7,6 +7,8 @@ export default class SettingsScreen extends React.Component {
   static navigationOptions = {
     // header: null,
     title: 'Settings',
+    headerTransparent: true,
+
     };
   
 
@@ -41,8 +43,12 @@ export default class SettingsScreen extends React.Component {
     )
   };    
 
-    _signOutAsync = async () => {
-
+// In the development mode, we will sign out without clearing any storage because
+// there was no sign in performed.  We will go directly to the sign in screen  
+    _signOutAsync = __DEV__ ? async () => {
+      this.props.navigation.navigate('AuthLoading');
+    }:
+      async () => {
       // var lParams = access_token=${token}; 
       var User_id = '10217938171825644';
       // await fetch( ‘https://graph.facebook.com/User_id/permissions’,{ method : ‘DELETE’, body: lParams }
@@ -55,7 +61,7 @@ export default class SettingsScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 15,
+    paddingTop: 85,
     backgroundColor: '#ffe',
   },
   header:{

@@ -9,8 +9,14 @@ import {
     TouchableOpacity,
     Text,
     TextInput,
+    Platform,
     Dimensions } from 'react-native';
+import { SocialIcon } from 'react-native-elements';
 import Expo from 'expo';
+import { Icon } from 'expo';
+import AssetPath from '../constants/AssetPath';
+import { FormInput } from 'react-native-elements';
+ 
 
 import Amplify, { Auth } from 'aws-amplify'
 import AWSConfig from '../aws-exports'
@@ -19,13 +25,29 @@ Amplify.configure(AWSConfig)
 
 const BackGroundImage = '../assets/images/splash.png';
 const LogoImage = '../assets/images/greenWhite.png';
+// const LogoImage =  AssetPath.LogoPix ;
+
 const AppID = '447519875768842';
 
 export default class AuthScreen extends React.Component {
-  static navigationOptions = {
-    header: null,
+// In development mode we will bypass the sign in process and go straight 
+// to the main page after sign in
+  static navigationOptions = __DEV__ ? 
+    ({navigation}) => ({
+    // header: null,
     // title: 'Please sign in',
-  };
+    headerTransparent: true,
+    headerRight:<TouchableOpacity onPress={() => navigation.navigate("Main")}>
+    <Icon.MaterialIcons 
+      name={'developer-mode'}
+      size={38} 
+      style={{ marginRight: 8 }}
+    />
+    </TouchableOpacity>
+    }): 
+    ({navigation}) => ({
+    headerTransparent: true,  
+    });
 
   // state = {
   //   username: '',
@@ -37,11 +59,7 @@ export default class AuthScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      fullname: 'full name',
-      pswd: 'password',
-      email: 'email',
-      phone_number: '',
-      token:'',
+      phone_number: "",
     };
   }
 
@@ -123,7 +141,7 @@ export default class AuthScreen extends React.Component {
             <View style={[styles.inputField]}>
 
             <TextInput
-              placeholder="Enter mobile number to sign in"
+              placeholder="Enter mobile to sign in!"
               placeholderTextColor='grey'
               keyboardType='phone-pad'
               enablesReturnKeyAutomatically={true}
@@ -131,18 +149,42 @@ export default class AuthScreen extends React.Component {
               returnKeyType='next'
               textAlign='center'
               style={styles.inputStyle}
+              underlineColorAndroid='transparent'
+              borderRadius={88}
               onChangeText={ value => this.onChangeText('phone_number', value) }
             />
+
+            {/* Trying to create input field with icon on the left */}
+            {/* <FormInput
+              placeholder = 'Enter mobile number to sign in'
+              leftIcon = { <Icon.Ionicons name={'ios-call'} /> }
+              inputStyle = {styles.inputStyle}
+              keyboardType='phone-pad'
+              enablesReturnKeyAutomatically={true}
+              maxLength={11}
+              returnKeyType='next'
+              textAlign='center'
+              onChangeText={ value => this.onChangeText('phone_number', value) }
+            /> */}
+
             </View>
 
-            <Text style={styles.subText}>A 6-digit code will be sent to this number</Text>
+            {/* <Text style={styles.subText}>A 6-digit code will be sent to this number</Text> */}
 
-            <Text style={styles.subText}>OR</Text>
+            {/* <Text style={styles.subText}>OR</Text> */}
 
-            {this.SignInFB_Button}
+            {/* {this.SignInFB_Button} */}
+
+            <SocialIcon
+              title='Sign In With Facebook'
+              button={true}
+              raised
+              type='facebook'
+              onPress={()=> this._signInAsync()}
+            />
 
             {this.SignUp_Button}
- 
+
           </ScrollView>
       </View>    
       );
@@ -203,15 +245,16 @@ const styles = StyleSheet.create({
   logo: {
     height: 165,
     width: 270,
+    marginVertical: 18,
     alignSelf: 'center',
     alignItems: 'stretch'
   },  
   inputStyle: {
     height: 48,
     fontSize: 18,
-    backgroundColor: 'rgba(255,255,255,0)',
-    borderBottomWidth: 1,
-    borderBottomColor: '#2196F3',
+    backgroundColor: 'rgba(205,205,205,0.8)',
+    // borderBottomWidth: 1,
+    // borderBottomColor: '#ffffFf',
     color: 'black'
   },
   inputField: {
