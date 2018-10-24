@@ -3,10 +3,9 @@ import { Platform } from 'react-native';
 
 import { View, Button, AsyncStorage, TouchableOpacity, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { Icon } from 'expo';
-import { FormInput } from 'react-native-elements';
+import { ListItem } from 'react-native-elements';
 
 import SettingsScreen from './SettingsScreen';
-
 
 export default class ProfileScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
@@ -22,12 +21,11 @@ export default class ProfileScreen extends React.Component {
     />
     </TouchableOpacity>
   });
-  
-  
+    
+
   render() {
     return(
       <ScrollView style={styles.container}>
-
       </ScrollView>
 
     )
@@ -192,5 +190,10 @@ const styles = StyleSheet.create({
     // fontSize: 10,
     fontFamily: 'Oswald-Regular',
     color: '#fff',
-  }  
+  },
+  bgImage: {
+    height: null,
+    width: null,
+    flex: 1
+  },  
 });

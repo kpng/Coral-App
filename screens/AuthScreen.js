@@ -16,6 +16,7 @@ import Expo from 'expo';
 import { Icon } from 'expo';
 import AssetPath from '../constants/AssetPath';
 import { FormInput } from 'react-native-elements';
+import * as firebase from 'firebase';
  
 
 import Amplify, { Auth } from 'aws-amplify'
@@ -63,6 +64,7 @@ export default class AuthScreen extends React.Component {
     };
   }
 
+  
 
   login = async() => {
 
@@ -70,7 +72,7 @@ export default class AuthScreen extends React.Component {
 
   get SignInFB_Button() {
     return (
-      <TouchableOpacity onPress={()=> this._signInAsync()}>
+      <TouchableOpacity onPress={()=> this._FBsignInAsync()}>
       <View
         style={{
           width: '100%',
@@ -141,7 +143,7 @@ export default class AuthScreen extends React.Component {
             <View style={[styles.inputField]}>
 
             <TextInput
-              placeholder="Enter mobile to sign in!"
+              placeholder="Enter mobile to SignIn"
               placeholderTextColor='grey'
               keyboardType='phone-pad'
               enablesReturnKeyAutomatically={true}
@@ -180,7 +182,15 @@ export default class AuthScreen extends React.Component {
               button={true}
               raised
               type='facebook'
-              onPress={()=> this._signInAsync()}
+              onPress={()=> this._FaceBooksignInViaFireBaseAsync()}
+            />
+
+            <SocialIcon
+              title='Sign In With Google'
+              button={true}
+              raised
+              type='google-plus-official'
+              onPress={()=> this._GOOGLEsignInAsync()}
             />
 
             {this.SignUp_Button}
@@ -190,7 +200,30 @@ export default class AuthScreen extends React.Component {
       );
   }
 
-  _signInAsync = async () => {
+  _FaceBooksignInViaFireBaseAsync = async () => {
+    // await AsyncStorage.setItem('userToken', 'abc');
+
+    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(AppID, 
+      { permissions: ['public_profile', 'email'] })
+
+    if (type === 'success'){
+      const credential = firebase.auth.FacebookAuthProvider.credential(token)
+      firebase.auth().signInAndRetrieveDataWithCredential(credential).catch( 
+        (error) => { console.log(error)
+        alert("error in sign in") })
+
+        alert("Sign in success!")
+        console.log("Cred", credential)
+        console.log(firebase.userInfo)
+    }
+    else{
+      alert("Sign in failed!")
+
+    }
+  };  
+
+
+  _FBsignInAsync = async () => {
     // await AsyncStorage.setItem('userToken', 'abc');
 
     const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(AppID, 
@@ -217,6 +250,35 @@ export default class AuthScreen extends React.Component {
       // alert(type);
     }
   };  
+
+
+  _GOOGLEsignInAsync = async () => {
+    // await AsyncStorage.setItem('userToken', 'abc');
+
+    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(AppID, 
+      { permissions: ['public_profile', 'email'] })
+
+    if (type === 'success'){
+      // Get the user's name using Facebook's Graph API
+      const response = await fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id, name, email, about, picture.type(large)`);
+
+      const userInfo = await response.json();
+      const alertmsg = (name) => { 
+        return 'Hello ' + name + '!'; };
+      // alert();
+      alert(alertmsg(userInfo.name));
+      // alert(alertmsg(userInfo.id));
+      // alert(alertmsg(token));
+      
+
+      // Alert.alert('Logged in!',`Hi ${(await response.json()).name}!`,);
+      // alert(type);
+      this.props.navigation.navigate('Main');
+    }
+    else{
+      // alert(type);
+    }
+  };    
 }
 
 const styles = StyleSheet.create({
