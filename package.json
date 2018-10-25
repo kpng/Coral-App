@@ -20,6 +20,7 @@
     "firebase": "^5.5.5",
     "react": "16.3.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",
+    "react-native-elements": "^0.19.1",
     "react-native-fontawesome": "^5.7.0",
     "react-navigation": "^2.16.0"
   },

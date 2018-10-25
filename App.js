@@ -1,11 +1,11 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View, Alert } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, ActivityIndicator } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import ApiKeys from './constants/ApiKeys';
 import * as firebase from 'firebase';
 import MainTabNavigator from './navigation/MainTabNavigator';
-
+import AssetPath from './constants/AssetPath';
 
 export default class App extends React.Component {
 
@@ -20,28 +20,30 @@ export default class App extends React.Component {
     //Firebase initialization
     if (!firebase.apps.length) {
       firebase.initializeApp(ApiKeys.FirebaseConfig);
-      // Alert.alert("firebase initialized!");
+      console.log("firebase initialized!");
     }
 
     firebase.auth().onAuthStateChanged(this.onAuthStateChanged);
   }
 
+  //We listen for changes in authentication states
   onAuthStateChanged = (user) => {
     this.setState( {isAuthenticationReady: true} );
     this.setState( {isAuthenticated: !!user} );
     if (user!= null){
-      console.log(user)
-      alert(user.email + " " + user.displayName)
+      console.log("onAuthStateChanged, user: ", user)
     }
+
   }
 
   render() {
-    if ( (!this.state.isLoadingComplete || !this.state.isAuthenticationReady) && !this.props.skipLoadingScreen) {
+    if ( (!this.state.isLoadingComplete || !this.state.isAuthenticationReady) && !this.props.skipLoadingScreen) 
+    {
       return (
         <AppLoading
           startAsync={this._loadResourcesAsync}
           onError={this._handleLoadingError}
-          onFinish={this._handleFinishLoading}
+          onFinish={this._handleFinishLoading}  
         />
       );
     } else {

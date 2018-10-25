@@ -26,7 +26,6 @@ Amplify.configure(AWSConfig)
 
 const BackGroundImage = '../assets/images/splash.png';
 const LogoImage = '../assets/images/greenWhite.png';
-// const LogoImage =  AssetPath.LogoPix ;
 
 const AppID = '447519875768842';
 
@@ -142,7 +141,7 @@ export default class AuthScreen extends React.Component {
             {/* <Button title="Sign in!" onPress={this._signInAsync} /> */}
             <View style={[styles.inputField]}>
 
-            <TextInput
+            {/* <TextInput
               placeholder="Enter mobile to SignIn"
               placeholderTextColor='grey'
               keyboardType='phone-pad'
@@ -154,7 +153,7 @@ export default class AuthScreen extends React.Component {
               underlineColorAndroid='transparent'
               borderRadius={88}
               onChangeText={ value => this.onChangeText('phone_number', value) }
-            />
+            /> */}
 
             {/* Trying to create input field with icon on the left */}
             {/* <FormInput
@@ -185,39 +184,44 @@ export default class AuthScreen extends React.Component {
               onPress={()=> this._FaceBooksignInViaFireBaseAsync()}
             />
 
-            <SocialIcon
+            {/* <SocialIcon
               title='Sign In With Google'
               button={true}
               raised
               type='google-plus-official'
               onPress={()=> this._GOOGLEsignInAsync()}
-            />
+            /> */}
 
-            {this.SignUp_Button}
+            {/* {this.SignUp_Button} */}
 
           </ScrollView>
-      </View>    
+      </View>      
       );
   }
 
   _FaceBooksignInViaFireBaseAsync = async () => {
-    // await AsyncStorage.setItem('userToken', 'abc');
 
     const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(AppID, 
       { permissions: ['public_profile', 'email'] })
 
     if (type === 'success'){
-      const credential = firebase.auth.FacebookAuthProvider.credential(token)
-      firebase.auth().signInAndRetrieveDataWithCredential(credential).catch( 
-        (error) => { console.log(error)
-        alert("error in sign in") })
+      await AsyncStorage.setItem('faceBookUserToken', token);
 
-        alert("Sign in success!")
-        console.log("Cred", credential)
-        console.log(firebase.userInfo)
+      const credential = firebase.auth.FacebookAuthProvider.credential(token)
+
+      // await AsyncStorage.setItem('faceBookUserCredential', credential);
+
+      firebase.auth().signInAndRetrieveDataWithCredential(credential).catch
+      ( 
+        (error) => {  console.log("FaceBook signIn error: ", error) }
+      )
+
+        console.log("FaceBook signIn success, credential: ", credential)
+        // console.log("firebase.userInfo: ", firebase.userInfo)
+
     }
     else{
-      alert("Sign in failed!")
+      console.log("SignIn notSuccess: ", type)
 
     }
   };  

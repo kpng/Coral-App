@@ -46,18 +46,17 @@ export default class SettingsScreen extends React.Component {
 
     _signOutAsync = 
       async () => {
-      // var lParams = access_token=${token}; 
-      // var User_id = '10217938171825644';
-      // await fetch( ‘https://graph.facebook.com/User_id/permissions’,{ method : ‘DELETE’, body: lParams }
+  
+        firebase.auth().signOut()
+        .then(  () => { console.log("signed out!"); }, 
+                (error) => { console.log("signOut error: ", error.message); }
+              );
 
-      firebase.auth().signOut()
-        .then( () => {
-          Alert.alert("signed out!");
-        }, (error) => {
-          Alert.alert(error.message);
-        });
+        await AsyncStorage.clear()
+        .then(  () => { console.log("AsyncStorage cleared!"); }, 
+              (error) => { console.log("AsyncStorage error in clearing: ", error.message); }                    
+              );
 
-      await AsyncStorage.clear();
       this.props.navigation.navigate('AuthLoading');
     };
 }

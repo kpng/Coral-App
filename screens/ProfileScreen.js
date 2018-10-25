@@ -1,11 +1,13 @@
 import React from 'react';
 import { Platform } from 'react-native';
 
-import { View, Button, AsyncStorage, TouchableOpacity, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { View, Button, AsyncStorage, TouchableOpacity, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import { Icon } from 'expo';
-import { ListItem } from 'react-native-elements';
+import { Avatar } from 'react-native-elements';
 
 import SettingsScreen from './SettingsScreen';
+
+const ProfilePix = 'https://graph.facebook.com/10217938171825644/picture';
 
 export default class ProfileScreen extends React.Component {
   static navigationOptions = ({navigation}) => ({
@@ -23,13 +25,17 @@ export default class ProfileScreen extends React.Component {
   });
     
 
+
   render() {
     return(
       <ScrollView style={styles.container}>
+
+        <Image source={{uri: 'https://graph.facebook.com/10217938171825644/picture/download.jpeg'}} style={[styles.bgImage]} />
+
       </ScrollView>
 
     )
-  };    
+  } 
 }
 
 const styles = StyleSheet.create({
