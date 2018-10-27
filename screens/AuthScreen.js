@@ -13,7 +13,7 @@ import {
     Dimensions } from 'react-native';
 import { SocialIcon } from 'react-native-elements';
 import Expo from 'expo';
-import { Icon } from 'expo';
+import { Icon, WebBrowser } from 'expo';
 import AssetPath from '../constants/AssetPath';
 import { FormInput } from 'react-native-elements';
 import * as firebase from 'firebase';
@@ -181,6 +181,7 @@ export default class AuthScreen extends React.Component {
               button={true}
               raised
               type='facebook'
+              underlayColor= '#ff0000'
               onPress={()=> this._FaceBooksignInViaFireBaseAsync()}
             />
 
@@ -193,6 +194,22 @@ export default class AuthScreen extends React.Component {
             /> */}
 
             {/* {this.SignUp_Button} */}
+
+            <View style={[styles.rowFlex]}>
+              <Text style={[styles.disclaimerText]}>By signing up, you agree to our
+              </Text>
+
+              <TouchableOpacity onPress={this._handleTermsOfUsePress}>
+              <Text style={styles.blueText}>Terms Of Use</Text>
+              </TouchableOpacity>
+              
+              <Text style={[styles.disclaimerText]}>and</Text>
+
+              <TouchableOpacity onPress={this._handlePrivacyPolicyPress}>
+              <Text style={styles.blueText}>Privacy Policy</Text>
+              </TouchableOpacity>
+
+            </View>           
 
           </ScrollView>
       </View>      
@@ -282,7 +299,15 @@ export default class AuthScreen extends React.Component {
     else{
       // alert(type);
     }
-  };    
+  }; 
+  
+  _handleTermsOfUsePress = () => {
+    WebBrowser.openBrowserAsync('http://coral.community');
+  }  
+
+  _handlePrivacyPolicyPress = () => {
+    WebBrowser.openBrowserAsync('http://coral.community');
+  }  
 }
 
 const styles = StyleSheet.create({
@@ -297,7 +322,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   overlayContainer: {
-    backgroundColor: 'rgba(205, 205, 205, 0.8);',
+    backgroundColor: 'rgba(205, 205, 205, 0.6);',
+    // backgroundColor: 'rgba(205, 205, 205, 0.8);',
     position: 'absolute',
     top: 40,
     right: 0,
@@ -309,8 +335,8 @@ const styles = StyleSheet.create({
     paddingTop: 16,
   },
   logo: {
-    height: 165,
-    width: 270,
+    height: 235,
+    width: 330,
     marginVertical: 18,
     alignSelf: 'center',
     alignItems: 'stretch'
@@ -332,5 +358,24 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'center',
     paddingBottom: 26,
+  },  
+  disclaimerText: {
+    color: 'black',
+    backgroundColor: 'rgba(205,205,205,0)',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontFamily: 'open-sans-reg'
+  },
+  rowFlex: {
+    marginHorizontal: -3
+  },
+  blueText: {
+    color: '#0000ff',
+    backgroundColor: 'rgba(205,205,205,0)',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontFamily: 'open-sans-reg'
   },  
 });
