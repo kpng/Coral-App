@@ -32,6 +32,12 @@ export default class App extends React.Component {
     this.setState( {isAuthenticated: !!user} );
     if (user!= null){
       console.log("onAuthStateChanged, user: ", user)
+      return (
+        <View>
+          <ActivityIndicator size='large' />
+          console.log("Activity indicator triggered!"");
+        </View>
+      )
     }
 
   }

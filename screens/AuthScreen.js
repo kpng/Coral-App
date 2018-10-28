@@ -181,7 +181,7 @@ export default class AuthScreen extends React.Component {
               button={true}
               raised
               type='facebook'
-              underlayColor= '#ff0000'
+              underlayColor= 'blue'
               onPress={()=> this._FaceBooksignInViaFireBaseAsync()}
             />
 
@@ -196,7 +196,7 @@ export default class AuthScreen extends React.Component {
             {/* {this.SignUp_Button} */}
 
             <View style={[styles.rowFlex]}>
-              <Text style={[styles.disclaimerText]}>By signing up, you agree to our
+              <Text style={[styles.disclaimerText]}>By signing in, you agree to our
               </Text>
 
               <TouchableOpacity onPress={this._handleTermsOfUsePress}>
@@ -221,7 +221,7 @@ export default class AuthScreen extends React.Component {
     const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(AppID, 
       { permissions: ['public_profile', 'email'] })
 
-    if (type === 'success'){
+      if (type === 'success'){
       await AsyncStorage.setItem('faceBookUserToken', token);
 
       const credential = firebase.auth.FacebookAuthProvider.credential(token)
@@ -328,6 +328,7 @@ const styles = StyleSheet.create({
     top: 40,
     right: 0,
     left: 0,
+    borderRadius: 28,
     marginHorizontal: Dimensions.get('window').width > 320 ? 16 : 10,
     marginVertical: 14,
     paddingHorizontal: 10,
@@ -365,17 +366,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
-    fontFamily: 'open-sans-reg'
+    fontFamily: 'open-sans-bold'
   },
   rowFlex: {
     marginHorizontal: -3
   },
   blueText: {
-    color: '#0000ff',
+    color: 'blue',
     backgroundColor: 'rgba(205,205,205,0)',
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
-    fontFamily: 'open-sans-reg'
+    fontFamily: 'open-sans-semibold'
   },  
 });
