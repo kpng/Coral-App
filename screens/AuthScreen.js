@@ -1,23 +1,24 @@
 import React from 'react';
-import {   
-    Button,
-    StyleSheet,
-    AsyncStorage,
-    Image,
-    View,
-    ScrollView,
-    TouchableOpacity,
-    Text,
-    TextInput,
-    Platform,
-    Dimensions } from 'react-native';
+import {
+  Button,
+  StyleSheet,
+  AsyncStorage,
+  Image,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  Text,
+  TextInput,
+  Platform,
+  Dimensions
+} from 'react-native';
 import { SocialIcon } from 'react-native-elements';
 import Expo from 'expo';
 import { Icon, WebBrowser } from 'expo';
 import AssetPath from '../constants/AssetPath';
 import { FormInput } from 'react-native-elements';
 import * as firebase from 'firebase';
- 
+
 
 import Amplify, { Auth } from 'aws-amplify'
 import AWSConfig from '../aws-exports'
@@ -30,89 +31,84 @@ const LogoImage = '../assets/images/greenWhite.png';
 const AppID = '447519875768842';
 
 export default class AuthScreen extends React.Component {
-// In development mode we will bypass the sign in process and go straight 
-// to the main page after sign in
-  static navigationOptions = __DEV__ ? 
-    ({navigation}) => ({
-    // header: null,
-    // title: 'Please sign in',
-    headerTransparent: true,
-    headerRight:<TouchableOpacity onPress={() => navigation.navigate("Main")}>
-    <Icon.MaterialIcons 
-      name={'developer-mode'}
-      size={38} 
-      style={{ marginRight: 8 }}
-    />
-    </TouchableOpacity>
-    }): 
-    ({navigation}) => ({
-    headerTransparent: true,  
+  // In development mode we will bypass the sign in process and go straight 
+  // to the main page after sign in
+  static navigationOptions = __DEV__ ?
+    ({ navigation }) => ({
+      // header: null,
+      // title: 'Please sign in',
+      headerTransparent: true,
+      headerRight: <TouchableOpacity onPress={() => navigation.navigate("Main")}>
+        <Icon.MaterialIcons
+          name={'developer-mode'}
+          size={38}
+          style={{ marginRight: 8 }}
+        />
+      </TouchableOpacity>
+    }) :
+    ({ navigation }) => ({
+      headerTransparent: true,
     });
 
-  // state = {
-  //   username: '',
-  //   password: '',
-  //   phone_number: '',
-  //   email: ''
-  // }
 
   constructor(props) {
     super(props);
     this.state = {
       phone_number: "",
+      userInfo: null
     };
   }
 
-  
 
-  login = async() => {
+
+  login = async () => {
 
   }
 
   get SignInFB_Button() {
     return (
-      <TouchableOpacity onPress={()=> this._FBsignInAsync()}>
-      <View
-        style={{
-          width: '100%',
-          alignSelf: 'center',
-          borderRadius: 4,
-          padding: 24,
-          backgroundColor: '#3B5998',
-        }}>
-        < Text style={{ color: 'white', fontFamily: 'open-sans-semibold', fontWeight: 'bold', fontSize: 18, alignSelf: 'center' }}>
-        Sign in with Facebook
+      <TouchableOpacity onPress={() => this._FBsignInAsync()}>
+        <View
+          style={{
+            width: '100%',
+            alignSelf: 'center',
+            borderRadius: 4,
+            padding: 24,
+            backgroundColor: '#3B5998',
+          }}>
+          < Text style={{ color: 'white', fontFamily: 'open-sans-semibold', fontWeight: 'bold', fontSize: 18, alignSelf: 'center' }}>
+            Sign in with Facebook
         </Text>
-      </View>              
-      </TouchableOpacity>      
+        </View>
+      </TouchableOpacity>
     )
   }
 
   get SignUp_Button() {
     return (
-      <TouchableOpacity onPress={()=> this.props.navigation.navigate('SignUp')}>
-      <View
-        style={{
-          width: '100%',
-          alignSelf: 'center',
-          borderRadius: 4,
-          padding: 24,
-          // backgroundColor: '#3B5998',
-        }}>
-        < Text style={{ color: 'blue', fontFamily: 'open-sans-semibold', fontWeight: 'bold', fontSize: 18, alignSelf: 'center' }}>
-        Sign Up
+      <TouchableOpacity onPress={() => this.props.navigation.navigate('SignUp')}>
+        <View
+          style={{
+            width: '100%',
+            alignSelf: 'center',
+            borderRadius: 4,
+            padding: 24,
+            // backgroundColor: '#3B5998',
+          }}>
+          < Text style={{ color: 'blue', fontFamily: 'open-sans-semibold', fontWeight: 'bold', fontSize: 18, alignSelf: 'center' }}>
+            Sign Up
         </Text>
-      </View>              
-      </TouchableOpacity>      
+        </View>
+      </TouchableOpacity>
     )
   }
 
 
-  onChangeText(key, value){
-    this.setState( {[key]: value} )
+  onChangeText(key, value) {
+    this.setState({ [key]: value })
   }
 
-  signUp(){
+  signUp() {
     Auth.signUp({
       username: this.state.phone_number,
       password: 'Qwerty-123',
@@ -121,25 +117,25 @@ export default class AuthScreen extends React.Component {
         phone_number: this.state.phone_number
       }
     })
-    .then( () => console.log('successful sign up!') )
-    .catch( err => console.log('error signing up: ', err))
+      .then(() => console.log('successful sign up!'))
+      .catch(err => console.log('error signing up: ', err))
   }
 
-  confirmSignUp(){
+  confirmSignUp() {
     Auth.confirmSignUp(this.state.username, this.state.confirmationCode)
-    .then( () => console.log('successful confirm sign up!'))
-    .catch( err => console.log('error confirming sign up: ', err))
+      .then(() => console.log('successful confirm sign up!'))
+      .catch(err => console.log('error confirming sign up: ', err))
   }
 
   render() {
     return (
       <View style={styles.container}>
         <Image source={require(BackGroundImage)} style={[styles.bgImage]} />
-          <ScrollView style={styles.overlayContainer}>
-            <Image source={require(LogoImage)} style={[styles.logo]} />
+        <ScrollView style={styles.overlayContainer}>
+          <Image source={require(LogoImage)} style={[styles.logo]} />
 
-            {/* <Button title="Sign in!" onPress={this._signInAsync} /> */}
-            <View style={[styles.inputField]}>
+          {/* <Button title="Sign in!" onPress={this._signInAsync} /> */}
+          <View style={[styles.inputField]}>
 
             {/* <TextInput
               placeholder="Enter mobile to SignIn"
@@ -168,24 +164,24 @@ export default class AuthScreen extends React.Component {
               onChangeText={ value => this.onChangeText('phone_number', value) }
             /> */}
 
-            </View>
+          </View>
 
-            {/* <Text style={styles.subText}>A 6-digit code will be sent to this number</Text> */}
+          {/* <Text style={styles.subText}>A 6-digit code will be sent to this number</Text> */}
 
-            {/* <Text style={styles.subText}>OR</Text> */}
+          {/* <Text style={styles.subText}>OR</Text> */}
 
-            {/* {this.SignInFB_Button} */}
+          {/* {this.SignInFB_Button} */}
 
-            <SocialIcon
-              title='Sign In With Facebook'
-              button={true}
-              raised
-              type='facebook'
-              underlayColor= 'blue'
-              onPress={()=> this._FaceBooksignInViaFireBaseAsync()}
-            />
+          <SocialIcon
+            title='Sign In With Facebook'
+            button={true}
+            raised
+            type='facebook'
+            underlayColor='blue'
+            onPress={() => this._FaceBooksignInViaFireBaseAsync()}
+          />
 
-            {/* <SocialIcon
+          {/* <SocialIcon
               title='Sign In With Google'
               button={true}
               raised
@@ -193,121 +189,102 @@ export default class AuthScreen extends React.Component {
               onPress={()=> this._GOOGLEsignInAsync()}
             /> */}
 
-            {/* {this.SignUp_Button} */}
+          {/* {this.SignUp_Button} */}
 
-            <View style={[styles.rowFlex]}>
-              <Text style={[styles.disclaimerText]}>By signing in, you agree to our
+          <View style={[styles.rowFlex]}>
+            <Text style={[styles.disclaimerText]}>By signing in, you agree to our
               </Text>
 
-              <TouchableOpacity onPress={this._handleTermsOfUsePress}>
+            <TouchableOpacity onPress={this._handleTermsOfUsePress}>
               <Text style={styles.blueText}>Terms Of Use</Text>
-              </TouchableOpacity>
-              
-              <Text style={[styles.disclaimerText]}>and</Text>
+            </TouchableOpacity>
 
-              <TouchableOpacity onPress={this._handlePrivacyPolicyPress}>
+            <Text style={[styles.disclaimerText]}>and</Text>
+
+            <TouchableOpacity onPress={this._handlePrivacyPolicyPress}>
               <Text style={styles.blueText}>Privacy Policy</Text>
-              </TouchableOpacity>
+            </TouchableOpacity>
 
-            </View>           
+          </View>
 
-          </ScrollView>
-      </View>      
-      );
+        </ScrollView>
+      </View>
+    );
   }
 
   _FaceBooksignInViaFireBaseAsync = async () => {
 
-    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(AppID, 
+    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(AppID,
       { permissions: ['public_profile', 'email'] })
 
-      if (type === 'success'){
+    if (type === 'success') {
       await AsyncStorage.setItem('faceBookUserToken', token);
 
+      // Get the user's name using Facebook's Graph API
+      const response = await fetch(
+        `https://graph.facebook.com/me?access_token=${token}&fields=id,name,picture.type(large)`);
+      const userInfo = await response.json();
+      this.setState({ userInfo });
+      console.log("userinfo: ", userInfo)
+
       const credential = firebase.auth.FacebookAuthProvider.credential(token)
+      console.log("Received credentials from firebase", credential)
 
       // await AsyncStorage.setItem('faceBookUserCredential', credential);
 
       firebase.auth().signInAndRetrieveDataWithCredential(credential).catch
-      ( 
-        (error) => {  console.log("FaceBook signIn error: ", error) }
-      )
+        (
+        (error) => { console.log("FaceBook signIn error: ", error) }
+        )
 
-        console.log("FaceBook signIn success, credential: ", credential)
-        // console.log("firebase.userInfo: ", firebase.userInfo)
+      console.log("FaceBook signIn success, credential: ", credential)
+      // console.log("firebase.userInfo: ", firebase.userInfo)
 
     }
-    else{
+    else {
       console.log("SignIn notSuccess: ", type)
 
     }
-  };  
+  };
 
 
   _FBsignInAsync = async () => {
     // await AsyncStorage.setItem('userToken', 'abc');
 
-    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(AppID, 
+    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(AppID,
       { permissions: ['public_profile', 'email'] })
 
-    if (type === 'success'){
+    if (type === 'success') {
       // Get the user's name using Facebook's Graph API
       const response = await fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id, name, email, about, picture.type(large)`);
 
       const userInfo = await response.json();
-      const alertmsg = (name) => { 
-        return 'Hello ' + name + '!'; };
+      const alertmsg = (name) => {
+        return 'Hello ' + name + '!';
+      };
       // alert();
       alert(alertmsg(userInfo.name));
       // alert(alertmsg(userInfo.id));
       // alert(alertmsg(token));
-      
+
 
       // Alert.alert('Logged in!',`Hi ${(await response.json()).name}!`,);
       // alert(type);
       this.props.navigation.navigate('Main');
     }
-    else{
+    else {
       // alert(type);
     }
-  };  
+  };
 
 
-  _GOOGLEsignInAsync = async () => {
-    // await AsyncStorage.setItem('userToken', 'abc');
-
-    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(AppID, 
-      { permissions: ['public_profile', 'email'] })
-
-    if (type === 'success'){
-      // Get the user's name using Facebook's Graph API
-      const response = await fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id, name, email, about, picture.type(large)`);
-
-      const userInfo = await response.json();
-      const alertmsg = (name) => { 
-        return 'Hello ' + name + '!'; };
-      // alert();
-      alert(alertmsg(userInfo.name));
-      // alert(alertmsg(userInfo.id));
-      // alert(alertmsg(token));
-      
-
-      // Alert.alert('Logged in!',`Hi ${(await response.json()).name}!`,);
-      // alert(type);
-      this.props.navigation.navigate('Main');
-    }
-    else{
-      // alert(type);
-    }
-  }; 
-  
   _handleTermsOfUsePress = () => {
     WebBrowser.openBrowserAsync('http://coral.community');
-  }  
+  }
 
   _handlePrivacyPolicyPress = () => {
     WebBrowser.openBrowserAsync('http://coral.community');
-  }  
+  }
 }
 
 const styles = StyleSheet.create({
@@ -341,7 +318,7 @@ const styles = StyleSheet.create({
     marginVertical: 18,
     alignSelf: 'center',
     alignItems: 'stretch'
-  },  
+  },
   inputStyle: {
     height: 48,
     fontSize: 18,
@@ -359,7 +336,7 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'center',
     paddingBottom: 26,
-  },  
+  },
   disclaimerText: {
     color: 'black',
     backgroundColor: 'rgba(205,205,205,0)',
@@ -378,5 +355,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     fontFamily: 'open-sans-semibold'
-  },  
+  },
 });

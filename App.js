@@ -9,12 +9,18 @@ import AssetPath from './constants/AssetPath';
 
 export default class App extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       isLoadingComplete: false,
       isAuthenticationReady: false,
       isAuthenticated: false,
+
+      displayName: null,
+      email: null,
+      phoneNumber: null,
+      photoURL: null,
+      uid: null
     };
 
     //Firebase initialization
@@ -28,10 +34,18 @@ export default class App extends React.Component {
 
   //We listen for changes in authentication states
   onAuthStateChanged = (user) => {
-    this.setState( {isAuthenticationReady: true} );
-    this.setState( {isAuthenticated: !!user} );
-    if (user!= null){
+    this.setState({ isAuthenticationReady: true });
+    this.setState({ isAuthenticated: !!user });
+    if (user != null) {
       console.log("onAuthStateChanged, user: ", user)
+      this.setState( { displayName: user.displayName });
+      this.setState( { email: user.email });
+      // this.setState( { phoneNumber: user.phoneNumber });
+      this.setState( { photoURL: user.photoURL });
+      this.setState( { uid: user.uid });
+
+
+
       return (
         <View>
           <ActivityIndicator size='large' />
@@ -43,13 +57,12 @@ export default class App extends React.Component {
   }
 
   render() {
-    if ( (!this.state.isLoadingComplete || !this.state.isAuthenticationReady) && !this.props.skipLoadingScreen) 
-    {
+    if ((!this.state.isLoadingComplete || !this.state.isAuthenticationReady) && !this.props.skipLoadingScreen) {
       return (
         <AppLoading
           startAsync={this._loadResourcesAsync}
           onError={this._handleLoadingError}
-          onFinish={this._handleFinishLoading}  
+          onFinish={this._handleFinishLoading}
         />
       );
     } else {
@@ -57,8 +70,13 @@ export default class App extends React.Component {
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
 
-          { (this.state.isAuthenticated) ? <MainTabNavigator /> : <AppNavigator /> }
-          
+          {(this.state.isAuthenticated) ?
+            <MainTabNavigator
+              screenProps={{
+                ...this.state
+              }}
+            /> : <AppNavigator />}
+
         </View>
       );
     }

@@ -1,61 +1,220 @@
 import React from 'react';
-
-import { View, Button, AsyncStorage, TouchableOpacity, Text, StyleSheet, ScrollView, Dimensions, Alert } from 'react-native';
-
+import { View, Button, AsyncStorage, TouchableOpacity, Image, Text, TextInput, StyleSheet, ScrollView, Dimensions, Alert } from 'react-native';
+import { WebBrowser } from 'expo';
 import * as firebase from 'firebase';
+
+const logoDev = '../assets/images/logo-blue-dev.png';
+const logoProd = '../assets/images/logo-green-prod.png';
+
 
 export default class SettingsScreen extends React.Component {
   static navigationOptions = {
     // header: null,
-    title: 'Settings',
+    // title: 'Settings',
     headerTransparent: true,
 
-    };
+  };
+
+  componentDidMount(){
+    firebase.database().ref('users/' + this.props.screenProps.uid + 'phoneNumber').on('value', (snapshot) => {
+      const phoneNumberFireBDB = snapshot.val().phoneNumber;
+      console.log("phoneNumberFireBDB: " + phoneNumberFireBDB); 
+    });
   
+  }
+
+
+  onChangeText(key, value) {
+    this.setState({ [key]: value })
+  }
+
+  get AboutUs_Button() {
+    return (
+      <TouchableOpacity onPress={this._handleAboutUsPress}>
+        <Text style={styles.blueText}>About Us</Text>
+      </TouchableOpacity>
+    )
+  }
+
+  get TermOfUse_Button() {
+    return (
+      <TouchableOpacity onPress={this._handleTermsOfUsePress}>
+        <Text style={styles.blueText}>Terms Of Use</Text>
+      </TouchableOpacity>
+    )
+  }
+
+  get PrivacyPolicy_Button() {
+    return (
+      <TouchableOpacity onPress={this._handlePrivacyPolicyPress}>
+        <Text style={styles.blueText}>Privacy Policy</Text>
+      </TouchableOpacity>
+    )
+  }
+
 
   get SignOut_Button() {
     return (
-      <TouchableOpacity onPress={()=> this._signOutAsync()}>
-      <View
-        style={{
-          width: '80%',
-          alignSelf: 'center',
-          borderRadius: 4,
-          padding: 24,
-          backgroundColor: '#3B5998',
-        }}>
-        < Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18, alignSelf: 'center' }}>
-        Sign Out Now
-        </Text>
-      </View>              
-      </TouchableOpacity>      
+      <TouchableOpacity onPress={() => this._signOutAsync()}>
+        <Text style={styles.blueText}>Sign Out</Text>
+      </TouchableOpacity>
     )
   }
 
 
   render() {
-    return(
+    return (
       <ScrollView style={styles.container}>
 
+        <Text style={[styles.label]}>Name</Text>
 
-      {this.SignOut_Button}
+        <View style={[styles.inputField]}>
+          <TextInput
+            placeholder={this.props.screenProps.displayName}
+            placeholderTextColor='black'
+            maxLength={48}
+            textAlign='left'
+            style={styles.inputStyle}
+            borderRadius={8}
+            paddingLeft={10}
+            underlineColorAndroid='transparent'
+            onChangeText={value => this.onChangeText('fullname', value)}
+          />
+        </View>
+
+        <Text style={[styles.label]}>Email</Text>
+
+        <View style={[styles.inputField]}>
+          <TextInput
+            placeholder={this.props.screenProps.email}
+            placeholderTextColor='black'
+            //  keyboardType='phone-pad'
+            //  enablesReturnKeyAutomatically={true}
+            maxLength={48}
+            //  returnKeyType='next'
+            textAlign='left'
+            style={styles.inputStyle}
+            borderRadius={8}
+            paddingLeft={10}
+            underlineColorAndroid='transparent'
+            onChangeText={value => this.onChangeText('email', value)}
+          />
+        </View>
+
+        <Text style={[styles.label]}>Mobile number</Text>
+
+        <View style={[styles.inputField]}>
+          <TextInput
+            placeholder={this.props.screenProps.phoneNumber}
+
+            placeholderTextColor='black'
+            keyboardType='phone-pad'
+            //  enablesReturnKeyAutomatically={true}
+            maxLength={11}
+            //  returnKeyType='next'
+            textAlign='left'
+            style={styles.inputStyle}
+            borderRadius={8}
+            paddingLeft={10}
+            underlineColorAndroid='transparent'
+            onChangeText={value => this.onChangeText('phoneNumber', value)}
+          />
+        </View>
+
+        <Text style={[styles.label]}>Postal Code</Text>
+
+        <View style={[styles.inputField]}>
+          <TextInput
+            placeholder=""
+            placeholderTextColor='black'
+            keyboardType='phone-pad'
+            //  enablesReturnKeyAutomatically={true}
+            maxLength={11}
+            //  returnKeyType='next'
+            textAlign='left'
+            style={styles.inputStyle}
+            borderRadius={8}
+            paddingLeft={10}
+            underlineColorAndroid='transparent'
+            onChangeText={value => this.onChangeText('phoneNumber', value)}
+          />
+        </View>
+
+
+        <Text style={[styles.label]}>Floor number</Text>
+
+        <View style={[styles.inputField]}>
+          <TextInput
+            placeholder={this.props.screenProps.phoneNumber}
+            placeholderTextColor='black'
+            //  keyboardType='phone-pad'
+            //  enablesReturnKeyAutomatically={true}
+            maxLength={2}
+            //  returnKeyType='next'
+            textAlign='left'
+            style={styles.inputStyle}
+            borderRadius={8}
+            paddingLeft={10}
+            underlineColorAndroid='transparent'
+            onChangeText={value => this.onChangeText('floorNumber', value)}
+          />
+        </View>
+
+        <Text style={[styles.label]}>Unit number</Text>
+
+        <View style={[styles.inputField]}>
+          <TextInput
+            placeholder={this.props.screenProps.uid}
+            placeholderTextColor='black'
+            keyboardType='phone-pad'
+            //  enablesReturnKeyAutomatically={true}
+            maxLength={5}
+            //  returnKeyType='next'
+            textAlign='left'
+            style={styles.inputStyle}
+            borderRadius={8}
+            paddingLeft={10}
+            underlineColorAndroid='transparent'
+            onChangeText={value => this.onChangeText('unitNumber', value)}
+          />
+        </View>
+
+
+        {this.AboutUs_Button}
+        {this.TermOfUse_Button}
+        {this.PrivacyPolicy_Button}
+        {this.SignOut_Button}
+
+
       </ScrollView>
 
     )
-  };    
+  };
 
-    _signOutAsync = 
-      async () => {
-  
-        firebase.auth().signOut()
-        .then(  () => { console.log("signed out!"); }, 
-                (error) => { console.log("signOut error: ", error.message); }
-              );
+  _handleAboutUsPress = () => {
+    WebBrowser.openBrowserAsync('http://coral.community');
+  }
 
-        await AsyncStorage.clear()
-        .then(  () => { console.log("AsyncStorage cleared!"); }, 
-              (error) => { console.log("AsyncStorage error in clearing: ", error.message); }                    
-              );
+  _handleTermsOfUsePress = () => {
+    WebBrowser.openBrowserAsync('http://coral.community');
+  }
+
+  _handlePrivacyPolicyPress = () => {
+    WebBrowser.openBrowserAsync('https://coral.community/resources/Website%20Privacy%20Policy.pdf');
+  }
+
+  _signOutAsync =
+    async () => {
+
+      firebase.auth().signOut()
+        .then(() => { console.log("signed out!"); },
+          (error) => { console.log("signOut error: ", error.message); }
+        );
+
+      await AsyncStorage.clear()
+        .then(() => { console.log("AsyncStorage cleared!"); },
+          (error) => { console.log("AsyncStorage error in clearing: ", error.message); }
+        );
 
       this.props.navigation.navigate('AuthLoading');
     };
@@ -64,18 +223,11 @@ export default class SettingsScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 85,
-    backgroundColor: '#ffe',
+    paddingTop: 68,
+    backgroundColor: '#CFD8DC',
   },
-  header:{
-    backgroundColor: '#1f1f1d',
-    paddingTop: 30,
-    paddingBottom: 17,
-    position: 'relative',
-    flex: 2.4
-  },
-  body: {
-    flex: 2
+  label: {
+    marginLeft: 28
   },
   overlay: {
     height: null,
@@ -86,138 +238,39 @@ const styles = StyleSheet.create({
     bottom: 0,
     top: 0
   },
-  headerContent: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    right: 0,
-    left: 0,
-    paddingTop: 17,
-    backgroundColor: 'transparent',
-    alignItems: 'center'
+  inputStyle: {
+    height: 42,
+    backgroundColor: '#B0BEC5',
+    textAlign: 'left',
+    marginLeft: 18,
+    marginRight: 18,
+    color: '#000',
+    fontFamily: 'open-sans-reg',
   },
-  menuIcon: {
-    height: 22,
-    width: 22,
-    resizeMode: 'contain',
+  inputField: {
+    alignItems: 'stretch',
+    marginBottom: 9,
   },
-  menuIconTouchable: {
-    position: 'absolute',
-    left: 11,
-    top: 25,
-    zIndex: 9,
-    padding: 5
-  },
-  row:{
-    flexDirection: 'row',
-
-  },
-  titleContent:{
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingTop: 12
-  },
-  title: {
-    fontSize: 15,
-    color: '#fff',
-    textAlign: 'center',
-    backgroundColor: 'transparent',
-    marginRight: 10,
-    fontFamily: 'Oswald-Regular'
-  },
-  code:{
-    color: '#2bc2fa',
-    fontSize: 10,
-    lineHeight: 13.7,
+  blueText: {
+    color: 'blue',
+    backgroundColor: 'rgba(205,205,205,0)',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'left',
     fontFamily: 'open-sans-semibold',
-    marginTop: 5
+    padding: 8,
+    marginLeft: 18,
   },
-  media: {
-    width: 115,
-    height: 115,
-    backgroundColor: '#fff',
-    borderRadius: 115/2,
-    marginVertical: 20,
+  welcomeContainer: {
     alignItems: 'center',
-    justifyContent: 'center'
+    // marginTop: 10,
+    marginBottom: 20,
   },
-  profileText: {
-    fontSize: 10,
-    color: '#fff',
-    paddingHorizontal: 16,
-    textAlign: 'center'
-  },
-  editProfileText: {
-    position: 'absolute',
-    top: -20,
-    right: 20
-  },
-  contactText: {
-    color: '#fff',
-    fontSize: 10,
-    marginHorizontal: 8
-  },
-  block: {
-    paddingTop: 32,
-    paddingBottom: 16,
-    borderBottomWidth: 1,
-    marginHorizontal: 10,
-    borderColor: '#ccc',
-  },
-  amountBlock: {
-    flex: 1,
-    paddingLeft: 28
-  },
-  label:{
-    fontSize: 14,
-    color: '#ee8c3c',
-    fontFamily: 'Oswald-Regular',
-    marginBottom: 22
-  },
-  amount: {
-    fontSize: 25,
-    fontFamily:'gotham-round',
-    paddingTop: 5,
-    marginRight: 10
-  },
-  btnTouchable: {
-    backgroundColor: '#eb3a46',
-    // paddingHorizontal: 47,
-    paddingVertical: 10,
-    width: 123,
-    alignItems: 'center'
-  },
-  btnText: {
-    color: '#fff',
-    fontSize: 20,
-    fontFamily: 'Oswald-Regular'
-  },
-  payBtn: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center'
-  },
-  topupIcon: {
-    height: 29,
+  welcomeImage: {
+    width: 100,
+    height: 80,
     resizeMode: 'contain',
-    width: 30
-  },
-  topupBlock: {
-    flex: 1,
-    paddingLeft: 28
-  },
-  topUpLi: {
-    // paddingHorizontal: 15,
-    backgroundColor: '#3bb866',
-    height: 28,
-    justifyContent: 'center',
-    marginRight: 8,
-    width: 41,
-    alignItems: 'center'
-  },
-  topUpLiText:{
-    // fontSize: 10,
-    fontFamily: 'Oswald-Regular',
-    color: '#fff',
-  }  
+    marginTop: 3,
+    marginLeft: -10,
+  },  
 });

@@ -66,11 +66,11 @@ export default class HomeScreen extends React.Component {
             </Text>
           </View> */}
 
-          <View style={styles.helpContainer}>
+          {/* <View style={styles.helpContainer}>
             <TouchableOpacity onPress={this._handleVisitUsPress} style={styles.helpLink}>
               <Text style={styles.helpLinkText}>Visit our website!</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
         </ScrollView>
 
         {/* <View style={styles.tabBarInfoContainer}>
