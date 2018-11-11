@@ -1,6 +1,9 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, View, StyleSheet } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
+import Camera from '../components/Camera'
+
+
 
 export default class RecycleScreen extends React.Component {
   static navigationOptions = {
@@ -10,8 +13,14 @@ export default class RecycleScreen extends React.Component {
 
   render() {
     return (
-      <ScrollView style={styles.container}>
-      </ScrollView>
+
+      // <ScrollView style={styles.container}>
+      // </ScrollView>
+      <View style={styles.container}>
+
+      </View>
+
+
     );
   }
 }
@@ -19,7 +28,7 @@ export default class RecycleScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 15,
+    paddingTop: 32,
     backgroundColor: '#fef',
   },
 });

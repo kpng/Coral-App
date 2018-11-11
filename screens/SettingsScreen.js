@@ -2,26 +2,76 @@ import React from 'react';
 import { View, Button, AsyncStorage, TouchableOpacity, Image, Text, TextInput, StyleSheet, ScrollView, Dimensions, Alert } from 'react-native';
 import { WebBrowser } from 'expo';
 import * as firebase from 'firebase';
+import { ListItem } from 'react-native-elements';
+import { Icon } from 'expo';
+
 
 const logoDev = '../assets/images/logo-blue-dev.png';
 const logoProd = '../assets/images/logo-green-prod.png';
 
+const list = [
+  {
+    title: 'About Us',
+    icon: 'info',
+    onPressAction: 'http://coral.community'
+  },
+  {
+    title: 'Terms Of Use',
+    icon: 'list',
+    onPressAction: 'http://coral.community/termsOfUse.html'
+  },
+  {
+    title: 'Privacy Policy',
+    icon: 'security',
+    onPressAction: 'http://coral.community/privacyPolicy.html'
+  },
+]
+
+const endList = [
+  {
+    title: 'Sign Out',
+    icon: 'flight-takeoff',
+  },
+]
+
 
 export default class SettingsScreen extends React.Component {
-  static navigationOptions = {
+  constructor(props) {
+    super(props);
+    this._handleAboutUsPress = this._handleAboutUsPress.bind(this);
+    this._signOutAsync = this._signOutAsync.bind(this);
+  }
+
+  state = {
+    items: []
+  }
+
+
+  static navigationOptions = ({ navigation }) => ({
     // header: null,
     // title: 'Settings',
     headerTransparent: true,
 
-  };
+    headerRight: <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+      <Icon.MaterialIcons
+        name={'save'}
+        size={38}
+        style={{ marginRight: 8 }}
+      />
+    </TouchableOpacity>
+  });
 
-  componentDidMount(){
-    firebase.database().ref('users/' + this.props.screenProps.uid + 'phoneNumber').on('value', (snapshot) => {
-      const phoneNumberFireBDB = snapshot.val().phoneNumber;
-      console.log("phoneNumberFireBDB: " + phoneNumberFireBDB); 
-    });
-  
+
+  componentDidMount() {
+    console.log('GrandChild did mount.' + this.props.screenProps.uid);
+
+    firebase.database().ref("users").on("value", (snapshot) => {
+      console.log('read firebase: ' + snapshot.toJSON());
+      console.log('done');
+    })
+    console.log('readed firebase')
   }
+
 
 
   onChangeText(key, value) {
@@ -65,131 +115,154 @@ export default class SettingsScreen extends React.Component {
   render() {
     return (
       <ScrollView style={styles.container}>
+        <View style={{ marginTop: 82 }}>
+          <Text style={[styles.label]}>Name</Text>
 
-        <Text style={[styles.label]}>Name</Text>
+          <View style={[styles.inputField]}>
+            <TextInput
+              placeholder={this.props.screenProps.displayName}
+              placeholderTextColor='black'
+              maxLength={48}
+              textAlign='left'
+              style={styles.inputStyle}
+              borderRadius={8}
+              paddingLeft={10}
+              underlineColorAndroid='transparent'
+              onChangeText={value => this.onChangeText('fullname', value)}
+            />
+          </View>
 
-        <View style={[styles.inputField]}>
-          <TextInput
-            placeholder={this.props.screenProps.displayName}
-            placeholderTextColor='black'
-            maxLength={48}
-            textAlign='left'
-            style={styles.inputStyle}
-            borderRadius={8}
-            paddingLeft={10}
-            underlineColorAndroid='transparent'
-            onChangeText={value => this.onChangeText('fullname', value)}
-          />
+          <Text style={[styles.label]}>Email</Text>
+
+          <View style={[styles.inputField]}>
+            <TextInput
+              placeholder={this.props.screenProps.email}
+              placeholderTextColor='black'
+              //  keyboardType='phone-pad'
+              //  enablesReturnKeyAutomatically={true}
+              maxLength={48}
+              //  returnKeyType='next'
+              textAlign='left'
+              style={styles.inputStyle}
+              borderRadius={8}
+              paddingLeft={10}
+              underlineColorAndroid='transparent'
+              onChangeText={value => this.onChangeText('email', value)}
+            />
+          </View>
+
+          <Text style={[styles.label]}>Mobile number</Text>
+
+          <View style={[styles.inputField]}>
+            <TextInput
+              placeholder={this.phoneNum}
+
+              placeholderTextColor='black'
+              keyboardType='phone-pad'
+              //  enablesReturnKeyAutomatically={true}
+              maxLength={11}
+              //  returnKeyType='next'
+              textAlign='left'
+              style={styles.inputStyle}
+              borderRadius={8}
+              paddingLeft={10}
+              underlineColorAndroid='transparent'
+              onChangeText={value => this.onChangeText('phoneNumber', value)}
+            />
+          </View>
+
+          <Text style={[styles.label]}>Postal Code</Text>
+
+          <View style={[styles.inputField]}>
+            <TextInput
+              placeholder=""
+              placeholderTextColor='black'
+              keyboardType='phone-pad'
+              //  enablesReturnKeyAutomatically={true}
+              maxLength={11}
+              //  returnKeyType='next'
+              textAlign='left'
+              style={styles.inputStyle}
+              borderRadius={8}
+              paddingLeft={10}
+              underlineColorAndroid='transparent'
+              onChangeText={value => this.onChangeText('phoneNumber', value)}
+            />
+          </View>
+
+
+          <Text style={[styles.label]}>Floor number</Text>
+
+          <View style={[styles.inputField]}>
+            <TextInput
+              placeholder={this.props.screenProps.phoneNumber}
+              placeholderTextColor='black'
+              //  keyboardType='phone-pad'
+              //  enablesReturnKeyAutomatically={true}
+              maxLength={2}
+              //  returnKeyType='next'
+              textAlign='left'
+              style={styles.inputStyle}
+              borderRadius={8}
+              paddingLeft={10}
+              underlineColorAndroid='transparent'
+              onChangeText={value => this.onChangeText('floorNumber', value)}
+            />
+          </View>
+
+          <Text style={[styles.label]}>Unit number</Text>
+
+          <View style={[styles.inputField]}>
+            <TextInput
+              placeholder={this.props.screenProps.uid}
+              placeholderTextColor='black'
+              keyboardType='phone-pad'
+              //  enablesReturnKeyAutomatically={true}
+              maxLength={5}
+              //  returnKeyType='next'
+              textAlign='left'
+              style={styles.inputStyle}
+              borderRadius={8}
+              paddingLeft={10}
+              underlineColorAndroid='transparent'
+              onChangeText={value => this.onChangeText('unitNumber', value)}
+            />
+          </View>
+
+          <View>
+            {
+              list.map((item, i) => (
+                <ListItem
+                  key={i}
+                  title={item.title}
+                  leftIcon={{ name: item.icon }}
+                  onPress={() => WebBrowser.openBrowserAsync(item.onPressAction)
+                  }
+                // onPress ={ () => this._signOutAsync() }
+                />
+              ))
+            }
+          </View>
+
+          <View>
+            {
+              endList.map((item, i) => (
+                <ListItem
+                  key={i}
+                  title={item.title}
+                  leftIcon={{ name: item.icon }}
+                  onPress={() => this._signOutAsync()}
+                />
+              ))
+            }
+            {/* {this.SignOut_Button} */}
+          </View>
         </View>
-
-        <Text style={[styles.label]}>Email</Text>
-
-        <View style={[styles.inputField]}>
-          <TextInput
-            placeholder={this.props.screenProps.email}
-            placeholderTextColor='black'
-            //  keyboardType='phone-pad'
-            //  enablesReturnKeyAutomatically={true}
-            maxLength={48}
-            //  returnKeyType='next'
-            textAlign='left'
-            style={styles.inputStyle}
-            borderRadius={8}
-            paddingLeft={10}
-            underlineColorAndroid='transparent'
-            onChangeText={value => this.onChangeText('email', value)}
-          />
-        </View>
-
-        <Text style={[styles.label]}>Mobile number</Text>
-
-        <View style={[styles.inputField]}>
-          <TextInput
-            placeholder={this.props.screenProps.phoneNumber}
-
-            placeholderTextColor='black'
-            keyboardType='phone-pad'
-            //  enablesReturnKeyAutomatically={true}
-            maxLength={11}
-            //  returnKeyType='next'
-            textAlign='left'
-            style={styles.inputStyle}
-            borderRadius={8}
-            paddingLeft={10}
-            underlineColorAndroid='transparent'
-            onChangeText={value => this.onChangeText('phoneNumber', value)}
-          />
-        </View>
-
-        <Text style={[styles.label]}>Postal Code</Text>
-
-        <View style={[styles.inputField]}>
-          <TextInput
-            placeholder=""
-            placeholderTextColor='black'
-            keyboardType='phone-pad'
-            //  enablesReturnKeyAutomatically={true}
-            maxLength={11}
-            //  returnKeyType='next'
-            textAlign='left'
-            style={styles.inputStyle}
-            borderRadius={8}
-            paddingLeft={10}
-            underlineColorAndroid='transparent'
-            onChangeText={value => this.onChangeText('phoneNumber', value)}
-          />
-        </View>
-
-
-        <Text style={[styles.label]}>Floor number</Text>
-
-        <View style={[styles.inputField]}>
-          <TextInput
-            placeholder={this.props.screenProps.phoneNumber}
-            placeholderTextColor='black'
-            //  keyboardType='phone-pad'
-            //  enablesReturnKeyAutomatically={true}
-            maxLength={2}
-            //  returnKeyType='next'
-            textAlign='left'
-            style={styles.inputStyle}
-            borderRadius={8}
-            paddingLeft={10}
-            underlineColorAndroid='transparent'
-            onChangeText={value => this.onChangeText('floorNumber', value)}
-          />
-        </View>
-
-        <Text style={[styles.label]}>Unit number</Text>
-
-        <View style={[styles.inputField]}>
-          <TextInput
-            placeholder={this.props.screenProps.uid}
-            placeholderTextColor='black'
-            keyboardType='phone-pad'
-            //  enablesReturnKeyAutomatically={true}
-            maxLength={5}
-            //  returnKeyType='next'
-            textAlign='left'
-            style={styles.inputStyle}
-            borderRadius={8}
-            paddingLeft={10}
-            underlineColorAndroid='transparent'
-            onChangeText={value => this.onChangeText('unitNumber', value)}
-          />
-        </View>
-
-
-        {this.AboutUs_Button}
-        {this.TermOfUse_Button}
-        {this.PrivacyPolicy_Button}
-        {this.SignOut_Button}
-
-
       </ScrollView>
-
     )
   };
+
+
 
   _handleAboutUsPress = () => {
     WebBrowser.openBrowserAsync('http://coral.community');
@@ -223,8 +296,9 @@ export default class SettingsScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 68,
-    backgroundColor: '#CFD8DC',
+    // marginTop: 82,
+
+    backgroundColor: 'white',
   },
   label: {
     marginLeft: 28
@@ -272,5 +346,5 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     marginTop: 3,
     marginLeft: -10,
-  },  
+  },
 });

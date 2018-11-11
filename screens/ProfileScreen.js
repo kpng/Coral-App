@@ -6,7 +6,6 @@ import { Icon } from 'expo';
 
 import SettingsScreen from './SettingsScreen';
 
-const ProfilePix = 'https://graph.facebook.com/10217938171825644/picture';
 
 export default class ProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -29,16 +28,16 @@ export default class ProfileScreen extends React.Component {
     return (
       <ScrollView style={styles.container}>
 
-<View style={styles.profileContainer}>
-        <Image
-          source={{ uri: this.props.screenProps.photoURL }}
-          style={styles.profilePhoto}
-        />
+        <View style={styles.profileContainer}>
+          <Image
+            source={{ uri: this.props.screenProps.photoURL }}
+            style={styles.profilePhoto}
+          />
 
-        <Text style={styles.profileText}>
-          {this.props.screenProps.displayName}
-        </Text>
-</View>
+          <Text style={styles.profileText}>
+            {this.props.screenProps.displayName}
+          </Text>
+        </View>
       </ScrollView>
 
     )
@@ -48,21 +47,23 @@ export default class ProfileScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 18,
+    // paddingTop: 23,
     // paddingLeft: 28,
+    // marginTop: 32,
 
-    backgroundColor: '#D7CCC8',
+    backgroundColor: 'white',
   },
 
   profileContainer: {
-    flex: 2,
-    backgroundColor: '#BCAAA4',
+    // flex: 2,
+    // backgroundColor: '#BCAAA4',
+    backgroundColor: 'white',
   },
 
   profilePhoto: {
     alignSelf: 'center',
-    width: 80, height: 80, borderRadius: 40,
-    marginTop: 8,
+    width: 50, height: 50, borderRadius: 25,
+    marginTop: 38,
     marginBottom: 8
   },
 
@@ -72,6 +73,6 @@ const styles = StyleSheet.create({
     marginBottom: 8
   }
 
-  
+
 
 });

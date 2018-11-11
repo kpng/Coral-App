@@ -25,22 +25,28 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-
+        <View>
+          //simulate an empty space above the search bar
+          <Text style={{ fontSize: 50, color: 'white' }}>Go</Text>
+        </View>
         <SearchBar
+          inputStyle={styles.inputStyleSearchBar}
+          containerStyle={styles.containerStyleSearchBar}
+          leftIconContainerStyle={styles.leftIconContainerStyleSearchBar}
+          rightIconContainerStyle={styles.rightIconContainerStyleSearchBar}
           round
           lightTheme
-          // searchIcon={{ size: 88 }}
+          clearIcon={{ color: 'black' }}
+          searchIcon={{ size: 88 }}
           // noIcon
           platform
-          inputStyle={styles.inputStyle}
-
+          backgroundColor='white'
 
           // onChangeText={someMethod}
           // onClear={someMethod}
-          placeholder='newspaper, e-waste, ...' 
+          placeholder='newspaper, e-waste, ...'
         />
-
+        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.welcomeContainer}>
             <Image
               source={
@@ -51,35 +57,7 @@ export default class HomeScreen extends React.Component {
               style={styles.welcomeImage}
             />
           </View>
-
-          {/* <View style={styles.getStartedContainer}>
-            {this._maybeRenderDevelopmentModeWarning()}
-
-            <Text style={styles.getStartedText}>Get started by opening</Text>
-
-            <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-              <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
-            </View>
-
-            <Text style={styles.getStartedText}>
-              Change this text and your app will automatically reload.
-            </Text>
-          </View> */}
-
-          {/* <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={this._handleVisitUsPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>Visit our website!</Text>
-            </TouchableOpacity>
-          </View> */}
         </ScrollView>
-
-        {/* <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
-
-          <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-            <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
-          </View>
-        </View> */}
       </View>
     );
   }
@@ -125,7 +103,8 @@ export default class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: 'white',
+    // marginTop: 32,
+    backgroundColor: 'white',
   },
   developmentModeText: {
     marginBottom: 20,
@@ -136,6 +115,8 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingTop: 30,
+    backgroundColor: 'white',
+
   },
   welcomeContainer: {
     alignItems: 'center',
@@ -149,66 +130,7 @@ const styles = StyleSheet.create({
     marginTop: 3,
     marginLeft: -10,
   },
-  getStartedContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50,
-  },
-  homeScreenFilename: {
-    marginVertical: 7,
-  },
-  codeHighlightText: {
-    color: 'rgba(96,100,109, 0.8)',
-  },
-  codeHighlightContainer: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-  getStartedText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    lineHeight: 24,
-    textAlign: 'center',
-  },
-  tabBarInfoContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
-  },
-  tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
-  },
-  navigationFilename: {
-    marginTop: 5,
-  },
-  helpContainer: {
-    marginTop: 15,
-    alignItems: 'center',
-  },
-  helpLink: {
-    paddingVertical: 15,
-  },
-  helpLinkText: {
-    fontSize: 14,
-    color: '#2e78b7',
-  },
+
   inputStyle: {
     height: 48,
     fontSize: 18,
@@ -216,5 +138,26 @@ const styles = StyleSheet.create({
     // borderBottomWidth: 1,
     // borderBottomColor: '#ffffFf',
     color: 'black'
-  },  
+  },
+  inputStyleSearchBar: {
+    height: 48,
+    fontSize: 18,
+    backgroundColor: 'rgba(205,205,205,0.5)',
+    // borderBottomWidth: 1,
+    // borderBottomColor: '#ffffFf',
+    color: 'black'
+  },
+  containerStyleSearchBar: {
+    height: 68,
+
+    backgroundColor: 'white',
+  },
+  leftIconContainerStyleSearchBar: {
+    alignItems: 'center',
+    color: 'black'
+  },
+  rightIconContainerStyleSearchBar: {
+    alignItems: 'center'
+  },
+
 });

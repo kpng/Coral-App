@@ -1,12 +1,11 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View, ActivityIndicator } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, SafeAreaView, ActivityIndicator } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import ApiKeys from './constants/ApiKeys';
 import * as firebase from 'firebase';
 import MainTabNavigator from './navigation/MainTabNavigator';
 import AssetPath from './constants/AssetPath';
-
 export default class App extends React.Component {
 
   constructor(props) {
@@ -22,7 +21,7 @@ export default class App extends React.Component {
       photoURL: null,
       uid: null
     };
-
+  
     //Firebase initialization
     if (!firebase.apps.length) {
       firebase.initializeApp(ApiKeys.FirebaseConfig);
@@ -43,17 +42,7 @@ export default class App extends React.Component {
       // this.setState( { phoneNumber: user.phoneNumber });
       this.setState( { photoURL: user.photoURL });
       this.setState( { uid: user.uid });
-
-
-
-      return (
-        <View>
-          <ActivityIndicator size='large' />
-          console.log("Activity indicator triggered!"");
-        </View>
-      )
     }
-
   }
 
   render() {
@@ -67,6 +56,7 @@ export default class App extends React.Component {
       );
     } else {
       return (
+
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
 
@@ -78,6 +68,7 @@ export default class App extends React.Component {
             /> : <AppNavigator />}
 
         </View>
+
       );
     }
   }

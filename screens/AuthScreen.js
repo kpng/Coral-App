@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Text,
   TextInput,
+  ActivityIndicator,
   Platform,
   Dimensions
 } from 'react-native';
@@ -18,7 +19,8 @@ import { Icon, WebBrowser } from 'expo';
 import AssetPath from '../constants/AssetPath';
 import { FormInput } from 'react-native-elements';
 import * as firebase from 'firebase';
-
+import Loader from '../components/Loader';
+import { db } from '../constants/ApiKeys';
 
 import Amplify, { Auth } from 'aws-amplify'
 import AWSConfig from '../aws-exports'
@@ -30,6 +32,7 @@ const LogoImage = '../assets/images/greenWhite.png';
 
 const AppID = '447519875768842';
 
+
 export default class AuthScreen extends React.Component {
   // In development mode we will bypass the sign in process and go straight 
   // to the main page after sign in
@@ -38,13 +41,14 @@ export default class AuthScreen extends React.Component {
       // header: null,
       // title: 'Please sign in',
       headerTransparent: true,
-      headerRight: <TouchableOpacity onPress={() => navigation.navigate("Main")}>
-        <Icon.MaterialIcons
-          name={'developer-mode'}
-          size={38}
-          style={{ marginRight: 8 }}
-        />
-      </TouchableOpacity>
+      //remove the bypass button
+      // headerRight: <TouchableOpacity onPress={() => navigation.navigate("Main")}>
+      //   <Icon.MaterialIcons
+      //     name={'developer-mode'}
+      //     size={38}
+      //     style={{ marginRight: 8 }}
+      //   />
+      // </TouchableOpacity>
     }) :
     ({ navigation }) => ({
       headerTransparent: true,
@@ -55,6 +59,7 @@ export default class AuthScreen extends React.Component {
     super(props);
     this.state = {
       phone_number: "",
+      loading: false,
       userInfo: null
     };
   }
@@ -163,6 +168,15 @@ export default class AuthScreen extends React.Component {
               textAlign='center'
               onChangeText={ value => this.onChangeText('phone_number', value) }
             /> */}
+          <Loader loading={this.state.loading} />
+          <SocialIcon
+            title='Sign In With Facebook'
+            button={true}
+            raised
+            type='facebook'
+            underlayColor='blue'
+            onPress={() => this._FaceBooksignInViaFireBaseAsync()}
+          />
 
           </View>
 
@@ -172,14 +186,7 @@ export default class AuthScreen extends React.Component {
 
           {/* {this.SignInFB_Button} */}
 
-          <SocialIcon
-            title='Sign In With Facebook'
-            button={true}
-            raised
-            type='facebook'
-            underlayColor='blue'
-            onPress={() => this._FaceBooksignInViaFireBaseAsync()}
-          />
+
 
           {/* <SocialIcon
               title='Sign In With Google'
@@ -213,11 +220,17 @@ export default class AuthScreen extends React.Component {
   }
 
   _FaceBooksignInViaFireBaseAsync = async () => {
-
+     
     const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(AppID,
       { permissions: ['public_profile', 'email'] })
 
+      this.setState({
+        loading: true
+      });
+
+
     if (type === 'success') {
+  
       await AsyncStorage.setItem('faceBookUserToken', token);
 
       // Get the user's name using Facebook's Graph API
@@ -225,7 +238,7 @@ export default class AuthScreen extends React.Component {
         `https://graph.facebook.com/me?access_token=${token}&fields=id,name,picture.type(large)`);
       const userInfo = await response.json();
       this.setState({ userInfo });
-      console.log("userinfo: ", userInfo)
+      console.log("userinfo: ", userInfo.id)
 
       const credential = firebase.auth.FacebookAuthProvider.credential(token)
       console.log("Received credentials from firebase", credential)
@@ -240,11 +253,19 @@ export default class AuthScreen extends React.Component {
       console.log("FaceBook signIn success, credential: ", credential)
       // console.log("firebase.userInfo: ", firebase.userInfo)
 
+
+      // firebase.database().ref('users/'+ userInfo.uid).once('value', (snapshot) => {
+      //   console.log("Read from firebase: ", snapshot.val())
+      // })
     }
     else {
       console.log("SignIn notSuccess: ", type)
-
     }
+
+    this.setState({
+      loading: false,
+    });  
+
   };
 
 
@@ -279,11 +300,11 @@ export default class AuthScreen extends React.Component {
 
 
   _handleTermsOfUsePress = () => {
-    WebBrowser.openBrowserAsync('http://coral.community');
+    WebBrowser.openBrowserAsync('http://coral.community/termsOfUse.html');
   }
 
   _handlePrivacyPolicyPress = () => {
-    WebBrowser.openBrowserAsync('http://coral.community');
+    WebBrowser.openBrowserAsync('http://coral.community/privacyPolicy.html');
   }
 }
 

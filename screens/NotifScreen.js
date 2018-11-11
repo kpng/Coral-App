@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, View, StyleSheet, Text } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 
 export default class NotifScreen extends React.Component {
@@ -10,8 +10,11 @@ export default class NotifScreen extends React.Component {
 
   render() {
     return (
-      <ScrollView style={styles.container}>
-      </ScrollView>
+      // <ScrollView style={styles.container}>
+        <View style={styles.placeholder}>
+          <Text style={styles.emptyAlertText}>You have no new alerts or updates</Text>
+        </View>
+      // </ScrollView>
     );
   }
 }
@@ -22,4 +25,13 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     backgroundColor: '#fee',
   },
+  emptyAlertText:{
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  placeholder: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 });
