@@ -72,9 +72,26 @@ ProfileStack.navigationOptions = {
   ),
 };
 
+
 export default createBottomTabNavigator({
   HomeStack,
   RecycleStack,
   NotifStack,
   ProfileStack,
-});
+},
+
+{
+  tabBarOptions: {
+    activeTintColor: 'navy',
+    inactiveTintColor: 'grey',
+    style: {
+      backgroundColor: 'white',
+      borderTopWidth: 0,
+      shadowOffset: { width: 5, height: 3},
+      shadowColor: 'black',
+      shadowOpacity: 0.5
+    }
+  }
+}
+
+);

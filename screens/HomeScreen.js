@@ -6,12 +6,14 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  SafeAreaView, TextInput,
   View,
 } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import { Icon } from 'expo';
+import Ionicon from 'react-native-vector-icons/Ionicons';
 
 const logoDev = '../assets/images/logo-blue-dev.png';
 const logoProd = '../assets/images/logo-green-prod.png';
@@ -24,12 +26,31 @@ export default class HomeScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View>
+      <SafeAreaView style={{ flex: 1}}>
+      <View style={{ flex: 1}}>
+      <View style={{ height: 80, backgroundColor: 'white', borderBottomWidth: 1, borderBottomColor: '#dddddd'}}>
+      <View style={{ flexDirection: 'row', padding: 10, backgroundColor: 'white', marginHorizontal: 20,
+    shadowOffset: { width: 0, height: 0},
+    shadowColor: 'black',
+    shadowOpacity: 0.2,
+    elevation: 1
+    }}>
+      <Ionicon name="ios-search" size={20} style={{marginRight: 10}} />
+      <TextInput 
+      underlineColorAndroid="transparent"
+      placeholder="newspaper, e-waste, ...etc"
+      placeholderTextColor="grey"
+      style={{ flex: 1, fontWeight: '700', backgroundColor: 'white'}}
+      />
+      
+      </View>
+      </View>
+
+        {/* <View>
           //simulate an empty space above the search bar
           <Text style={{ fontSize: 50, color: 'white' }}>Go</Text>
-        </View>
-        <SearchBar
+        </View> */}
+        {/* <SearchBar
           inputStyle={styles.inputStyleSearchBar}
           containerStyle={styles.containerStyleSearchBar}
           leftIconContainerStyle={styles.leftIconContainerStyleSearchBar}
@@ -45,7 +66,7 @@ export default class HomeScreen extends React.Component {
           // onChangeText={someMethod}
           // onClear={someMethod}
           placeholder='newspaper, e-waste, ...'
-        />
+        /> */}
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.welcomeContainer}>
             <Image
@@ -59,6 +80,7 @@ export default class HomeScreen extends React.Component {
           </View>
         </ScrollView>
       </View>
+      </SafeAreaView>
     );
   }
 
