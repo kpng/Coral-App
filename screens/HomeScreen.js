@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  SafeAreaView, TextInput, StatusBar,
+  SafeAreaView, TextInput, StatusBar, Dimensions,
   View,
 } from 'react-native';
 import { SearchBar } from 'react-native-elements';
@@ -19,6 +19,7 @@ import RecentAdded from '../components/RecentAdded';
 const logoDev = '../assets/images/logo-blue-dev.png';
 const logoProd = '../assets/images/logo-green-prod.png';
 
+const { height, width } = Dimensions.get('window')
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -60,7 +61,7 @@ export default class HomeScreen extends React.Component {
           <ScrollView
             scrollEventThrottle={16}>
             <View style={{ flex: 1, paddingTop: 18 }}>
-              <Text style={{ fontSize: 18, fontWeight: '500', paddingHorizontal: 18 }}>Recently added recycling campaigns:</Text>
+              <Text style={{ fontSize: 18, fontWeight: '800', paddingHorizontal: 18 }}>Recently added recycling campaigns:</Text>
 
               <View style={{ height: 128, marginTop: 20 }}>
                 <ScrollView horizontal={true}
@@ -73,8 +74,7 @@ export default class HomeScreen extends React.Component {
               </View>
 
               <View style={{ marginTop: 40 }}>
-                <Text style={{ fontSize: 18, fontWeight: '500', paddingHorizontal: 18 }}>Verified donation drives:</Text>
-
+                <Text style={{ fontSize: 18, fontWeight: '800', paddingHorizontal: 18 }}>Verified donation drives:</Text>
                 <View style={{ height: 128, marginTop: 20 }}>
                   <ScrollView horizontal={true}
                     showsHorizontalScrollIndicator={false}>
@@ -82,6 +82,34 @@ export default class HomeScreen extends React.Component {
                     <RecentAdded imageUri={require('../assets/images/Campaigns/Donate2.png')} name="Muhammadiyah Association" />
                     <RecentAdded imageUri={require('../assets/images/Campaigns/Donate3.png')} name="Metta" />
                   </ScrollView>
+                </View>
+
+                <View style={{ marginTop: 40 }}>
+                  <Text style={{ fontSize: 18, fontWeight: '800', paddingHorizontal: 18 }}>
+                    Collectors near your location:</Text>
+                  <View style={{ width: width, height: 200, marginTop: 20, paddingHorizontal: 20 }}>
+                    <Image style={{
+                      flex: 1, height: null, width: null,
+                      resizeMode: 'cover', borderRadius: 5, borderWidth: 1,
+                      borderColor: '#dddddd'
+                    }} source={require('../assets/images/Campaigns/Near1.png')} />
+                  </View>
+
+                  <View style={{ width: width, height: 200, marginTop: 20, paddingHorizontal: 20 }}>
+                    <Image style={{
+                      flex: 1, height: null, width: null,
+                      resizeMode: 'cover', borderRadius: 5, borderWidth: 1,
+                      borderColor: '#dddddd'
+                    }} source={require('../assets/images/Campaigns/Near2.png')} />
+                  </View>
+
+                  <View style={{ width: width, height: 200, marginTop: 20, paddingHorizontal: 20 }}>
+                    <Image style={{
+                      flex: 1, height: null, width: null,
+                      resizeMode: 'cover', borderRadius: 5, borderWidth: 1,
+                      borderColor: '#dddddd'
+                    }} source={require('../assets/images/Campaigns/Near3.png')} />
+                  </View>
                 </View>
 
               </View>
