@@ -238,7 +238,6 @@ export default class SettingsScreen extends React.Component {
                   leftIcon={{ name: item.icon }}
                   onPress={() => WebBrowser.openBrowserAsync(item.onPressAction)
                   }
-                // onPress ={ () => this._signOutAsync() }
                 />
               ))
             }
@@ -255,8 +254,23 @@ export default class SettingsScreen extends React.Component {
                 />
               ))
             }
-            {/* {this.SignOut_Button} */}
           </View>
+
+            <View style={styles.welcomeContainer}>
+              <Image
+                source={
+                  __DEV__
+                    ? require(logoDev)
+                    : require(logoProd)
+                }
+                style={styles.welcomeImage}
+              />
+              <Text style={{alignItems: 'center', paddingTop: 10 }}>
+                Copyright ©2018 Coral.Community
+              </Text>
+              <Text>Version 0.1.0</Text>
+            </View>
+
         </View>
       </ScrollView>
     )
@@ -346,5 +360,6 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     marginTop: 3,
     marginLeft: -10,
+    marginTop: 10,
   },
 });

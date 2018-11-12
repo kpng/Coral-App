@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  SafeAreaView, TextInput,
+  SafeAreaView, TextInput, StatusBar,
   View,
 } from 'react-native';
 import { SearchBar } from 'react-native-elements';
@@ -14,6 +14,7 @@ import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import { Icon } from 'expo';
 import Ionicon from 'react-native-vector-icons/Ionicons';
+import RecentAdded from '../components/RecentAdded';
 
 const logoDev = '../assets/images/logo-blue-dev.png';
 const logoProd = '../assets/images/logo-green-prod.png';
@@ -24,62 +25,74 @@ export default class HomeScreen extends React.Component {
     header: null,
   };
 
+  componentWillMount() {
+    this.startHeaderHeight = 80
+    if (Platform.OS == 'android') {
+      this.startHeaderHeight = 100 + StatusBar.currentHeight
+      console.log("Statusbar height" + StatusBar.currentHeight)
+    }
+  }
+
   render() {
     return (
-      <SafeAreaView style={{ flex: 1}}>
-      <View style={{ flex: 1}}>
-      <View style={{ height: 80, backgroundColor: 'white', borderBottomWidth: 1, borderBottomColor: '#dddddd'}}>
-      <View style={{ flexDirection: 'row', padding: 10, backgroundColor: 'white', marginHorizontal: 20,
-    shadowOffset: { width: 0, height: 0},
-    shadowColor: 'black',
-    shadowOpacity: 0.2,
-    elevation: 1
-    }}>
-      <Ionicon name="ios-search" size={20} style={{marginRight: 10}} />
-      <TextInput 
-      underlineColorAndroid="transparent"
-      placeholder="newspaper, e-waste, ...etc"
-      placeholderTextColor="grey"
-      style={{ flex: 1, fontWeight: '700', backgroundColor: 'white'}}
-      />
-      
-      </View>
-      </View>
-
-        {/* <View>
-          //simulate an empty space above the search bar
-          <Text style={{ fontSize: 50, color: 'white' }}>Go</Text>
-        </View> */}
-        {/* <SearchBar
-          inputStyle={styles.inputStyleSearchBar}
-          containerStyle={styles.containerStyleSearchBar}
-          leftIconContainerStyle={styles.leftIconContainerStyleSearchBar}
-          rightIconContainerStyle={styles.rightIconContainerStyleSearchBar}
-          round
-          lightTheme
-          clearIcon={{ color: 'black' }}
-          searchIcon={{ size: 88 }}
-          // noIcon
-          platform
-          backgroundColor='white'
-
-          // onChangeText={someMethod}
-          // onClear={someMethod}
-          placeholder='newspaper, e-waste, ...'
-        /> */}
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={
-                __DEV__
-                  ? require(logoDev)
-                  : require(logoProd)
-              }
-              style={styles.welcomeImage}
-            />
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
+          <View style={{ height: this.startHeaderHeight, backgroundColor: 'transparent', borderBottomWidth: 1, borderBottomColor: '#dddddd' }}>
+            <View style={{
+              //search box props
+              flexDirection: 'row', padding: 10, backgroundColor: 'white', marginHorizontal: 20,
+              shadowOffset: { width: 0, height: 0 },
+              shadowColor: 'black',
+              shadowOpacity: 0.2,
+              elevation: 1,
+              marginTop: Platform.OS == 'android' ? 30 : null
+            }}>
+              <Ionicon name="ios-search" size={20} style={{ marginRight: 10 }} />
+              <TextInput
+                underlineColorAndroid="transparent"
+                placeholder="newspaper, e-waste, ...etc"
+                placeholderTextColor="grey"
+                style={{ flex: 1, fontWeight: '700', backgroundColor: 'white' }}
+              />
+            </View>
           </View>
-        </ScrollView>
-      </View>
+
+          <ScrollView
+            scrollEventThrottle={16}>
+            <View style={{ flex: 1, paddingTop: 18 }}>
+              <Text style={{ fontSize: 18, fontWeight: '500', paddingHorizontal: 18 }}>Recently added recycling campaigns:</Text>
+
+              <View style={{ height: 128, marginTop: 20 }}>
+                <ScrollView horizontal={true}
+                  showsHorizontalScrollIndicator={false}>
+                  <RecentAdded imageUri={require('../assets/images/Campaigns/Event1.jpg')} name="Boon Keng Ville RC" />
+                  <RecentAdded imageUri={require('../assets/images/Campaigns/Event2.jpg')} name="Upper Boon Keng Ville RC" />
+                  <RecentAdded imageUri={require('../assets/images/Campaigns/Event3.jpg')} name="Race Course Road RC" />
+                  <RecentAdded imageUri={require('../assets/images/Campaigns/Event4.jpg')} name="Whampoa South RC" />
+                </ScrollView>
+              </View>
+
+              <View style={{ marginTop: 40 }}>
+                <Text style={{ fontSize: 18, fontWeight: '500', paddingHorizontal: 18 }}>Verified donation drives:</Text>
+
+                <View style={{ height: 128, marginTop: 20 }}>
+                  <ScrollView horizontal={true}
+                    showsHorizontalScrollIndicator={false}>
+                    <RecentAdded imageUri={require('../assets/images/Campaigns/Donate1.png')} name="Tzu Chi Foundation" />
+                    <RecentAdded imageUri={require('../assets/images/Campaigns/Donate2.png')} name="Muhammadiyah Association" />
+                    <RecentAdded imageUri={require('../assets/images/Campaigns/Donate3.png')} name="Metta" />
+                  </ScrollView>
+                </View>
+
+              </View>
+            </View>
+          </ScrollView>
+
+          <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+
+          </ScrollView>
+
+        </View>
       </SafeAreaView>
     );
   }
@@ -126,7 +139,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // marginTop: 32,
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
   },
   developmentModeText: {
     marginBottom: 20,
@@ -137,7 +150,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingTop: 30,
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
 
   },
   welcomeContainer: {
