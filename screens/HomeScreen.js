@@ -15,11 +15,10 @@ import { MonoText } from '../components/StyledText';
 import { Icon } from 'expo';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import RecentAdded from '../components/RecentAdded';
+import NearYou from '../components/NearYou';
 
 const logoDev = '../assets/images/logo-blue-dev.png';
 const logoProd = '../assets/images/logo-green-prod.png';
-
-const { height, width } = Dimensions.get('window')
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -86,32 +85,11 @@ export default class HomeScreen extends React.Component {
 
                 <View style={{ marginTop: 40 }}>
                   <Text style={{ fontSize: 18, fontWeight: '800', paddingHorizontal: 18 }}>
-                    Collectors near your location:</Text>
-                  <View style={{ width: width, height: 200, marginTop: 20, paddingHorizontal: 20 }}>
-                    <Image style={{
-                      flex: 1, height: null, width: null,
-                      resizeMode: 'cover', borderRadius: 5, borderWidth: 1,
-                      borderColor: '#dddddd'
-                    }} source={require('../assets/images/Campaigns/Near1.png')} />
-                  </View>
-
-                  <View style={{ width: width, height: 200, marginTop: 20, paddingHorizontal: 20 }}>
-                    <Image style={{
-                      flex: 1, height: null, width: null,
-                      resizeMode: 'cover', borderRadius: 5, borderWidth: 1,
-                      borderColor: '#dddddd'
-                    }} source={require('../assets/images/Campaigns/Near2.png')} />
-                  </View>
-
-                  <View style={{ width: width, height: 200, marginTop: 20, paddingHorizontal: 20 }}>
-                    <Image style={{
-                      flex: 1, height: null, width: null,
-                      resizeMode: 'cover', borderRadius: 5, borderWidth: 1,
-                      borderColor: '#dddddd'
-                    }} source={require('../assets/images/Campaigns/Near3.png')} />
-                  </View>
+                    Collectors near your location:</Text>       
+                  <NearYou imageUri={require('../assets/images/Campaigns/Near1.png')} text="Recycle e-waste @ABC mobile shop"/>
+                  <NearYou imageUri={require('../assets/images/Campaigns/Near2.png')} text="Reverse vending @XXX Mart"/>
+                  <NearYou imageUri={require('../assets/images/Campaigns/Near3.png')} text="Zero-waste carnival @Toa Payoh"/>
                 </View>
-
               </View>
             </View>
           </ScrollView>
