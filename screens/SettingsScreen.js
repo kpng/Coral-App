@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     height: 42,
-    backgroundColor: '#B0BEC5',
+    backgroundColor: '#dddddd',
     textAlign: 'left',
     marginLeft: 18,
     marginRight: 18,

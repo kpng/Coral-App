@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     // paddingLeft: 28,
     // marginTop: 32,
 
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
   },
 
   profileContainer: {
