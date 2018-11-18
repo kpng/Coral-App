@@ -19,6 +19,8 @@ import NearYou from '../components/NearYou';
 
 const logoDev = '../assets/images/logo-blue-dev.png';
 const logoProd = '../assets/images/logo-green-prod.png';
+// const logoProd = '../assets/images/logo-green-prod.png';
+
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
